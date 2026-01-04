@@ -281,6 +281,7 @@ const HeroSection = () => {
           mouseX={mousePosition.x}
           mouseY={mousePosition.y}
           scrollY={scrollY}
+          prefersReducedMotion={prefersReducedMotion}
         />
       ))}
 
