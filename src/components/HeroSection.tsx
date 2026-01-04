@@ -89,18 +89,22 @@ const Floating3DIcon = ({
       style={{
         left: `${x}%`,
         top: `${y}%`,
-        perspective: 1000,
-        transformStyle: 'preserve-3d',
+        perspective: prefersReducedMotion ? 'none' : 1000,
+        transformStyle: prefersReducedMotion ? 'flat' : 'preserve-3d',
       }}
-      initial={{ opacity: 0, scale: 0, rotateY: 180 }}
+      initial={{ opacity: 0, scale: 0, rotateY: prefersReducedMotion ? 0 : 180 }}
       animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-      transition={{
-        delay: delay * 0.15,
-        duration: 0.8,
-        type: 'spring',
-        stiffness: 100,
-      }}
-      onMouseMove={handleMouseMove}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : {
+              delay: delay * 0.15,
+              duration: 0.8,
+              type: 'spring',
+              stiffness: 100,
+            }
+      }
+      onMouseMove={prefersReducedMotion ? undefined : handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -110,24 +114,28 @@ const Floating3DIcon = ({
     >
       <motion.div
         style={{
-          rotateX: isHovered ? rotateX : 0,
-          rotateY: isHovered ? rotateY : scrollRotate,
-          transformStyle: 'preserve-3d',
-          x: mouseX * (0.02 * (12 - delay)),
-          y: mouseY * (0.02 * (12 - delay)),
+          rotateX: !prefersReducedMotion && isHovered ? rotateX : 0,
+          rotateY: !prefersReducedMotion && isHovered ? rotateY : prefersReducedMotion ? 0 : scrollRotate,
+          transformStyle: prefersReducedMotion ? 'flat' : 'preserve-3d',
+          x: prefersReducedMotion ? 0 : mouseX * (0.02 * (12 - delay)),
+          y: prefersReducedMotion ? 0 : mouseY * (0.02 * (12 - delay)),
         }}
         animate={
-          !isHovered
-            ? {
+          prefersReducedMotion || isHovered
+            ? {}
+            : {
                 y: [0, -20, 0],
                 rotateZ: [0, 5, -5, 0],
               }
-            : {}
         }
-        transition={{
-          y: { duration: 4 + delay * 0.5, repeat: Infinity, ease: 'easeInOut' },
-          rotateZ: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-        }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : {
+                y: { duration: 4 + delay * 0.5, repeat: Infinity, ease: 'easeInOut' },
+                rotateZ: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+              }
+        }
       >
         {/* Glow */}
         <motion.div
