@@ -289,8 +289,8 @@ const HeroSection = () => {
       <motion.div
         className="absolute w-96 h-96 border border-primary/10 rounded-full hidden lg:block"
         style={{ right: '5%', top: '10%', y: y2 }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+        animate={prefersReducedMotion ? {} : { rotate: 360 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 30, repeat: Infinity, ease: 'linear' }}
       >
         <motion.div
           className="absolute top-0 left-1/2 w-4 h-4 -translate-x-1/2 -translate-y-1/2 bg-primary rounded-full"
@@ -301,8 +301,8 @@ const HeroSection = () => {
       <motion.div
         className="absolute w-64 h-64 border border-secondary/10 hidden lg:block"
         style={{ left: '5%', bottom: '20%', rotate: 45 }}
-        animate={{ rotate: [45, 225, 45] }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        animate={prefersReducedMotion ? {} : { rotate: [45, 225, 45] }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 20, repeat: Infinity, ease: 'linear' }}
       />
 
       {/* Hexagon pattern */}
@@ -310,8 +310,8 @@ const HeroSection = () => {
         className="absolute left-[10%] top-[30%] w-32 h-32 text-primary/20 hidden lg:block"
         viewBox="0 0 100 100"
         style={{ y: y1 }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+        animate={prefersReducedMotion ? {} : { rotate: 360 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 25, repeat: Infinity, ease: 'linear' }}
       >
         <polygon
           points="50,3 95,25 95,75 50,97 5,75 5,25"
