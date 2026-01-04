@@ -140,11 +140,13 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
           </motion.div>
         )}
 
-        {/* Image with 3D effect */}
-        <div className="relative h-48 md:h-56 overflow-hidden">
+        {/* Image with 3D effect and lazy loading */}
+        <div className="relative h-48 md:h-56 overflow-hidden bg-muted animate-pulse">
           <motion.img
             src={project.image}
             alt={project.title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
             style={{
               scale: isHovered ? 1.1 : 1,
