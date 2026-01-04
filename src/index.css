@@ -80,8 +80,22 @@
     font-family: var(--font-body);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1 {
+    font-size: clamp(1.875rem, 5vw, 3.5rem);
     font-family: var(--font-display);
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-family: var(--font-display);
+  }
+
+  h3, h4 {
+    font-family: var(--font-display);
+  }
+
+  p {
+    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
   }
 
   code, pre {
