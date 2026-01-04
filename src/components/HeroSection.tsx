@@ -209,6 +209,8 @@ const HeroSection = () => {
   const scale = useTransform(scrollY, [0, 400], [1, 0.8]);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth - 0.5) * 40,
@@ -218,7 +220,7 @@ const HeroSection = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <section
