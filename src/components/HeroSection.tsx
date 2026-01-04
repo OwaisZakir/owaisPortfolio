@@ -200,10 +200,11 @@ const HeroSection = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { scrollY } = useScroll();
   const containerRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   // Parallax transforms
-  const y1 = useTransform(scrollY, [0, 500], [0, 150]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -100]);
+  const y1 = useTransform(scrollY, [0, 500], prefersReducedMotion ? [0, 0] : [0, 150]);
+  const y2 = useTransform(scrollY, [0, 500], prefersReducedMotion ? [0, 0] : [0, -100]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
   const scale = useTransform(scrollY, [0, 400], [1, 0.8]);
 
