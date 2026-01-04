@@ -524,12 +524,24 @@ const ContactSection = () => {
                   value={formData.message}
                   onChange={handleChange}
                   onFocus={() => setFocusedField('message')}
-                  onBlur={() => setFocusedField(null)}
+                  onBlur={(e) => {
+                    setFocusedField(null);
+                    handleBlur(e);
+                  }}
                   required
                   rows={5}
                   className={`${inputClasses('message')} resize-none`}
                   placeholder="Tell me about your project..."
                 />
+                {errors.message && touchedFields.message && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-destructive text-xs font-medium"
+                  >
+                    {errors.message}
+                  </motion.p>
+                )}
               </div>
 
               <motion.button
