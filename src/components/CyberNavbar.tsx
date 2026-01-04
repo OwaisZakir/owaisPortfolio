@@ -65,8 +65,8 @@ const CyberNavbar = () => {
               href="#home"
               onClick={(e) => { e.preventDefault(); handleNavClick('#home'); }}
               className="flex items-center gap-2 group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
             >
               <div className="relative">
                 <Terminal className="w-8 h-8 text-primary neon-text" />
