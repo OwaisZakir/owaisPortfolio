@@ -1,5 +1,6 @@
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { useRef, useState } from 'react';
+import { useIsTouchDevice } from '@/hooks/use-is-touch-device';
 import {
   Send,
   Mail,
