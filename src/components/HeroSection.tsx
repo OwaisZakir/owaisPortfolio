@@ -552,8 +552,12 @@ const HeroSection = () => {
           className={`absolute ${corner.pos} w-20 h-20 ${corner.border} border-primary/30`}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1 + i * 0.1, duration: 0.5 }}
-          whileHover={{ borderColor: 'hsl(187 100% 47%)', scale: 1.1 }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { delay: 1 + i * 0.1, duration: 0.5 }
+          }
+          whileHover={prefersReducedMotion ? {} : { borderColor: 'hsl(187 100% 47%)', scale: 1.1 }}
         />
       ))}
     </section>
