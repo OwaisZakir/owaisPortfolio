@@ -202,6 +202,7 @@ const HeroSection = () => {
   const { scrollY } = useScroll();
   const containerRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const isTouchDevice = useIsTouchDevice();
 
   // Parallax transforms
   const y1 = useTransform(scrollY, [0, 500], prefersReducedMotion ? [0, 0] : [0, 150]);
