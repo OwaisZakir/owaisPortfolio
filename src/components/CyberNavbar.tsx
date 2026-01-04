@@ -98,7 +98,11 @@ const CyberNavbar = () => {
                     <motion.div
                       layoutId="activeNav"
                       className="absolute inset-0 bg-primary/10 border border-primary/30 rounded"
-                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                      transition={
+                        prefersReducedMotion
+                          ? { duration: 0 }
+                          : { type: 'spring', bounce: 0.2, duration: 0.6 }
+                      }
                     />
                   )}
                   <span className="relative z-10">{item.name}</span>
