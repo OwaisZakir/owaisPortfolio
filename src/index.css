@@ -105,6 +105,12 @@
   select:focus {
     @apply ring-2 ring-primary/50;
   }
+
+  /* High contrast text for accessibility */
+  .high-contrast-text {
+    color: hsl(var(--foreground));
+    font-weight: 500;
+  }
 }
 
 @layer components {
