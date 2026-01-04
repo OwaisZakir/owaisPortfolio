@@ -154,7 +154,7 @@ const ContactSection = () => {
   const rotateY = useSpring(mouseX, { stiffness: 100, damping: 20 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!cardRef.current) return;
+    if (isTouchDevice || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     mouseX.set((e.clientX - rect.left - rect.width / 2) / 50);
     mouseY.set((rect.top + rect.height / 2 - e.clientY) / 50);
