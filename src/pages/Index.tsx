@@ -1,4 +1,5 @@
 import ParticleField from '@/components/ParticleField';
+import MouseFollower from '@/components/MouseFollower';
 import CyberNavbar from '@/components/CyberNavbar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
@@ -11,6 +12,9 @@ import Footer from '@/components/Footer';
 const Index = () => {
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* Mouse Follower Effect */}
+      <MouseFollower />
+      
       {/* Background Particle System */}
       <ParticleField />
       
