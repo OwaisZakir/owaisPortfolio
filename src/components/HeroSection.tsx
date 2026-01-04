@@ -237,28 +237,40 @@ const HeroSection = () => {
       {/* Multiple gradient orbs */}
       <motion.div
         className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl"
-        style={{ x: mousePosition.x * 0.5, y: mousePosition.y * 0.5 }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{ duration: 8, repeat: Infinity }}
+        style={{ x: prefersReducedMotion ? 0 : mousePosition.x * 0.5, y: prefersReducedMotion ? 0 : mousePosition.y * 0.5 }}
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }
+        }
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 8, repeat: Infinity }}
       />
       <motion.div
         className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl"
-        style={{ x: mousePosition.x * -0.3, y: mousePosition.y * -0.3 }}
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{ duration: 10, repeat: Infinity }}
+        style={{ x: prefersReducedMotion ? 0 : mousePosition.x * -0.3, y: prefersReducedMotion ? 0 : mousePosition.y * -0.3 }}
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                scale: [1.2, 1, 1.2],
+                opacity: [0.2, 0.4, 0.2],
+              }
+        }
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 10, repeat: Infinity }}
       />
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl"
-        animate={{
-          rotate: 360,
-        }}
-        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                rotate: 360,
+              }
+        }
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 60, repeat: Infinity, ease: 'linear' }}
       />
 
       {/* Floating 3D Icons */}
