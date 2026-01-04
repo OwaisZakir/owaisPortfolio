@@ -206,17 +206,28 @@ const ContactSection = () => {
 
     setIsSubmitting(true);
 
-    // Simulate processing time
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Simulate processing time with progress
+    for (let i = 0; i < 3; i++) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
 
     // Save to localStorage
     saveSubmission(formData);
 
+    // Show success notification with celebration
     toast.success('Message sent successfully!', {
       description: "Your message has been saved. I'll get back to you soon!",
-      icon: <Sparkles className="w-4 h-4" />,
+      icon: <motion.div
+        initial={{ scale: 0, rotate: -360 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ type: 'spring', duration: 0.6 }}
+      >
+        <Sparkles className="w-4 h-4" />
+      </motion.div>,
+      duration: 4000,
     });
 
+    // Trigger success animation (button feedback)
     setFormData({ name: '', email: '', subject: '', message: '' });
     setErrors({});
     setTouchedFields({});
