@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { useIsTouchDevice } from '@/hooks/use-is-touch-device';
 import {
   ChevronDown,
   Github,
