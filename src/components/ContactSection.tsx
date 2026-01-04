@@ -391,25 +391,29 @@ const ContactSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Contact Form with 3D effect */}
+          {/* Contact Form with 3D effect (disabled on touch) */}
           <motion.form
             ref={cardRef}
             onSubmit={handleSubmit}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={() => {
-              mouseX.set(0);
-              mouseY.set(0);
-            }}
-            initial={{ opacity: 0, x: 50, rotateY: 15 }}
+            onMouseMove={isTouchDevice ? undefined : handleMouseMove}
+            onMouseLeave={
+              isTouchDevice
+                ? undefined
+                : () => {
+                    mouseX.set(0);
+                    mouseY.set(0);
+                  }
+            }
+            initial={{ opacity: 0, x: 50, rotateY: isTouchDevice ? 0 : 15 }}
             animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
             className="cyber-card p-8 space-y-6 relative overflow-hidden"
             style={{
-              perspective: 1000,
-              transformStyle: 'preserve-3d',
-              rotateX,
-              rotateY,
-            }}
+              perspective: isTouchDevice ? 'none' : 1000,
+              transformStyle: isTouchDevice ? 'flat' : 'preserve-3d',
+              rotateX: isTouchDevice ? 0 : rotateX,
+              rotateY: isTouchDevice ? 0 : rotateY,
+            } as React.CSSProperties}
           >
             {/* Animated border */}
             <motion.div
