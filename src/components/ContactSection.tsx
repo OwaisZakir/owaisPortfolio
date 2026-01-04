@@ -495,11 +495,23 @@ const ContactSection = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   onFocus={() => setFocusedField('subject')}
-                  onBlur={() => setFocusedField(null)}
+                  onBlur={(e) => {
+                    setFocusedField(null);
+                    handleBlur(e);
+                  }}
                   required
                   className={inputClasses('subject')}
                   placeholder="Project Collaboration"
                 />
+                {errors.subject && touchedFields.subject && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-destructive text-xs font-medium"
+                  >
+                    {errors.subject}
+                  </motion.p>
+                )}
               </div>
 
               <div className="space-y-2">
