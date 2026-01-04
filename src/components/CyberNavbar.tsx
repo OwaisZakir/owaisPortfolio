@@ -183,7 +183,7 @@ const CyberNavbar = () => {
                       closed: { opacity: 0, x: 20 },
                     }}
                     transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }}
-                    className={`px-6 py-4 font-display text-lg tracking-wider uppercase transition-colors border-l-2 ${
+                    className={`px-6 py-4 font-display text-lg tracking-wider uppercase transition-colors border-l-2 font-semibold ${
                       activeSection === item.href.slice(1)
                         ? 'border-primary text-primary neon-text bg-primary/5'
                         : 'border-transparent text-foreground hover:text-primary hover:border-primary/50'
