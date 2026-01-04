@@ -546,9 +546,9 @@ const ContactSection = () => {
 
               <motion.button
                 type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: 1.02, boxShadow: '0 0 40px hsl(187 100% 47% / 0.4)' }}
-                whileTap={{ scale: 0.98 }}
+                disabled={isSubmitting || Object.keys(errors).length > 0}
+                whileHover={Object.keys(errors).length === 0 && !isSubmitting ? { scale: 1.02, boxShadow: '0 0 40px hsl(187 100% 47% / 0.4)' } : {}}
+                whileTap={Object.keys(errors).length === 0 && !isSubmitting ? { scale: 0.98 } : {}}
                 className="w-full cyber-btn py-5 bg-primary text-primary-foreground font-display uppercase tracking-wider flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed relative overflow-hidden group"
               >
                 {/* Shine effect */}
