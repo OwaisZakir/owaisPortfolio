@@ -87,6 +87,24 @@
   code, pre {
     font-family: var(--font-mono);
   }
+
+  /* Keyboard focus styles for accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  /* Additional focus ring for form elements */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    @apply ring-2 ring-primary/50;
+  }
 }
 
 @layer components {
