@@ -88,10 +88,10 @@ const CyberNavbar = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className={`relative px-4 py-2 font-display text-sm tracking-wider uppercase transition-colors ${
+                  className={`relative px-4 py-2 font-display text-sm tracking-wider uppercase transition-colors font-semibold ${
                     activeSection === item.href.slice(1)
-                      ? 'text-primary'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'text-primary neon-text'
+                      : 'text-foreground hover:text-primary'
                   }`}
                 >
                   {activeSection === item.href.slice(1) && (
