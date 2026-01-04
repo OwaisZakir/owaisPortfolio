@@ -200,6 +200,7 @@
   .cyber-btn {
     @apply relative overflow-hidden font-display font-semibold tracking-wider uppercase;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: box-shadow 0.2s ease;
   }
 
   .cyber-btn::before {
@@ -211,6 +212,10 @@
 
   .cyber-btn:hover::before {
     transform: translateX(0);
+  }
+
+  .cyber-btn:focus-visible {
+    box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 0 5px hsl(var(--primary));
   }
 
   /* Progress bar glow */
