@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Terminal } from 'lucide-react';
+import { useReducedMotion } from '@/hooks/use-reduced-motion';
 
 const navItems = [
   { name: 'Home', href: '#home' },
