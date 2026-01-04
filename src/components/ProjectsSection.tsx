@@ -341,34 +341,44 @@ const ProjectsSection = () => {
           className="flex flex-wrap justify-center gap-3 mb-12"
         >
           {categories.map((category, index) => (
-            <motion.button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 + index * 0.1, type: 'spring' }}
-              whileHover={{ scale: 1.05, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              className={`flex items-center gap-2 px-5 py-3 font-display text-sm uppercase tracking-wider rounded-xl transition-all duration-300 ${
-                activeCategory === category.id
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-card/50 text-muted-foreground hover:text-foreground border border-border hover:border-primary/30'
-              }`}
-              style={{
-                boxShadow:
+            <motion.div key={category.id} className="relative">
+              <motion.button
+                onClick={() => setActiveCategory(category.id)}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 + index * 0.1, type: 'spring' }}
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className={`flex items-center gap-2 px-5 py-3 font-display text-sm uppercase tracking-wider rounded-xl transition-all duration-300 relative ${
                   activeCategory === category.id
-                    ? `0 0 30px ${category.color}50`
-                    : 'none',
-              }}
-            >
-              <motion.div
-                animate={activeCategory === category.id ? { rotate: 360 } : {}}
-                transition={{ duration: 0.5 }}
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-card/50 text-muted-foreground hover:text-foreground border border-border hover:border-primary/30'
+                }`}
+                style={{
+                  boxShadow:
+                    activeCategory === category.id
+                      ? `0 0 30px ${category.color}50`
+                      : 'none',
+                }}
               >
-                <category.icon className="w-4 h-4" />
-              </motion.div>
-              {category.label}
-            </motion.button>
+                <motion.div
+                  animate={activeCategory === category.id ? { rotate: 360 } : {}}
+                  transition={{ duration: 0.5 }}
+                >
+                  <category.icon className="w-4 h-4" />
+                </motion.div>
+                {category.label}
+              </motion.button>
+
+              {/* Animated underline for active state */}
+              {activeCategory === category.id && (
+                <motion.div
+                  layoutId="filter-underline"
+                  className="absolute bottom-0 left-5 right-5 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent"
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </motion.div>
           ))}
         </motion.div>
 
