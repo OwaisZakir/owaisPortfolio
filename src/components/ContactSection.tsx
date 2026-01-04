@@ -144,6 +144,7 @@ const ContactSection = () => {
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const isTouchDevice = useIsTouchDevice();
 
   // 3D card effect
   const cardRef = useRef<HTMLFormElement>(null);
