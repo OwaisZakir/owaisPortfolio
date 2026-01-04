@@ -245,12 +245,18 @@ const ContactSection = () => {
     }));
   };
 
-  const inputClasses = (fieldName: string) =>
-    `w-full px-5 py-4 bg-muted/30 border rounded-xl font-mono text-sm placeholder:text-muted-foreground focus:outline-none transition-all duration-300 ${
-      focusedField === fieldName
-        ? 'border-primary ring-2 ring-primary/20 bg-muted/50'
-        : 'border-border hover:border-primary/50'
+  const inputClasses = (fieldName: string) => {
+    const hasError = errors[fieldName];
+    const isTouched = touchedFields[fieldName];
+
+    return `w-full px-5 py-4 bg-muted/30 border rounded-xl font-mono text-sm placeholder:text-muted-foreground focus:outline-none transition-all duration-300 ${
+      hasError && isTouched
+        ? 'border-destructive ring-2 ring-destructive/20 bg-destructive/5'
+        : focusedField === fieldName
+          ? 'border-primary ring-2 ring-primary/20 bg-muted/50'
+          : 'border-border hover:border-primary/50'
     }`;
+  };
 
   return (
     <section id="contact" className="relative py-24 md:py-32 overflow-hidden">
