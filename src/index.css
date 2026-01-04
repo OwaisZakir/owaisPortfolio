@@ -80,12 +80,50 @@
     font-family: var(--font-body);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1 {
+    font-size: clamp(1.875rem, 5vw, 3.5rem);
     font-family: var(--font-display);
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-family: var(--font-display);
+  }
+
+  h3, h4 {
+    font-family: var(--font-display);
+  }
+
+  p {
+    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
   }
 
   code, pre {
     font-family: var(--font-mono);
+  }
+
+  /* Keyboard focus styles for accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  /* Additional focus ring for form elements */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    @apply ring-2 ring-primary/50;
+  }
+
+  /* High contrast text for accessibility */
+  .high-contrast-text {
+    color: hsl(var(--foreground));
+    font-weight: 500;
   }
 }
 
@@ -182,6 +220,7 @@
   .cyber-btn {
     @apply relative overflow-hidden font-display font-semibold tracking-wider uppercase;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: box-shadow 0.2s ease;
   }
 
   .cyber-btn::before {
@@ -193,6 +232,10 @@
 
   .cyber-btn:hover::before {
     transform: translateX(0);
+  }
+
+  .cyber-btn:focus-visible {
+    box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 0 5px hsl(var(--primary));
   }
 
   /* Progress bar glow */

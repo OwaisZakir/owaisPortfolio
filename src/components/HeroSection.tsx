@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
+import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { useIsTouchDevice } from '@/hooks/use-is-touch-device';
 import {
   ChevronDown,
   Github,
@@ -45,6 +47,7 @@ interface Floating3DIconProps {
   mouseX: number;
   mouseY: number;
   scrollY: any;
+  prefersReducedMotion?: boolean;
 }
 
 const Floating3DIcon = ({
@@ -57,6 +60,7 @@ const Floating3DIcon = ({
   mouseX,
   mouseY,
   scrollY,
+  prefersReducedMotion = false,
 }: Floating3DIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -86,18 +90,22 @@ const Floating3DIcon = ({
       style={{
         left: `${x}%`,
         top: `${y}%`,
-        perspective: 1000,
-        transformStyle: 'preserve-3d',
+        perspective: prefersReducedMotion ? 'none' : 1000,
+        transformStyle: prefersReducedMotion ? 'flat' : 'preserve-3d',
       }}
-      initial={{ opacity: 0, scale: 0, rotateY: 180 }}
+      initial={{ opacity: 0, scale: 0, rotateY: prefersReducedMotion ? 0 : 180 }}
       animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-      transition={{
-        delay: delay * 0.15,
-        duration: 0.8,
-        type: 'spring',
-        stiffness: 100,
-      }}
-      onMouseMove={handleMouseMove}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : {
+              delay: delay * 0.15,
+              duration: 0.8,
+              type: 'spring',
+              stiffness: 100,
+            }
+      }
+      onMouseMove={prefersReducedMotion ? undefined : handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -107,24 +115,28 @@ const Floating3DIcon = ({
     >
       <motion.div
         style={{
-          rotateX: isHovered ? rotateX : 0,
-          rotateY: isHovered ? rotateY : scrollRotate,
-          transformStyle: 'preserve-3d',
-          x: mouseX * (0.02 * (12 - delay)),
-          y: mouseY * (0.02 * (12 - delay)),
+          rotateX: !prefersReducedMotion && isHovered ? rotateX : 0,
+          rotateY: !prefersReducedMotion && isHovered ? rotateY : prefersReducedMotion ? 0 : scrollRotate,
+          transformStyle: prefersReducedMotion ? 'flat' : 'preserve-3d',
+          x: prefersReducedMotion ? 0 : mouseX * (0.02 * (12 - delay)),
+          y: prefersReducedMotion ? 0 : mouseY * (0.02 * (12 - delay)),
         }}
         animate={
-          !isHovered
-            ? {
+          prefersReducedMotion || isHovered
+            ? {}
+            : {
                 y: [0, -20, 0],
                 rotateZ: [0, 5, -5, 0],
               }
-            : {}
         }
-        transition={{
-          y: { duration: 4 + delay * 0.5, repeat: Infinity, ease: 'easeInOut' },
-          rotateZ: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-        }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : {
+                y: { duration: 4 + delay * 0.5, repeat: Infinity, ease: 'easeInOut' },
+                rotateZ: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+              }
+        }
       >
         {/* Glow */}
         <motion.div
@@ -189,14 +201,18 @@ const HeroSection = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { scrollY } = useScroll();
   const containerRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const isTouchDevice = useIsTouchDevice();
 
   // Parallax transforms
-  const y1 = useTransform(scrollY, [0, 500], [0, 150]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -100]);
+  const y1 = useTransform(scrollY, [0, 500], prefersReducedMotion ? [0, 0] : [0, 150]);
+  const y2 = useTransform(scrollY, [0, 500], prefersReducedMotion ? [0, 0] : [0, -100]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
   const scale = useTransform(scrollY, [0, 400], [1, 0.8]);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth - 0.5) * 40,
@@ -206,7 +222,7 @@ const HeroSection = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <section
@@ -223,47 +239,66 @@ const HeroSection = () => {
       {/* Multiple gradient orbs */}
       <motion.div
         className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl"
-        style={{ x: mousePosition.x * 0.5, y: mousePosition.y * 0.5 }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{ duration: 8, repeat: Infinity }}
+        style={{ x: prefersReducedMotion ? 0 : mousePosition.x * 0.5, y: prefersReducedMotion ? 0 : mousePosition.y * 0.5 }}
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }
+        }
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 8, repeat: Infinity }}
       />
       <motion.div
         className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl"
-        style={{ x: mousePosition.x * -0.3, y: mousePosition.y * -0.3 }}
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{ duration: 10, repeat: Infinity }}
+        style={{ x: prefersReducedMotion ? 0 : mousePosition.x * -0.3, y: prefersReducedMotion ? 0 : mousePosition.y * -0.3 }}
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                scale: [1.2, 1, 1.2],
+                opacity: [0.2, 0.4, 0.2],
+              }
+        }
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 10, repeat: Infinity }}
       />
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl"
-        animate={{
-          rotate: 360,
-        }}
-        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                rotate: 360,
+              }
+        }
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 60, repeat: Infinity, ease: 'linear' }}
       />
 
-      {/* Floating 3D Icons */}
-      {floatingIcons.map((icon, index) => (
-        <Floating3DIcon
-          key={index}
-          {...icon}
-          mouseX={mousePosition.x}
-          mouseY={mousePosition.y}
-          scrollY={scrollY}
-        />
-      ))}
+      {/* Floating 3D Icons - Reduced on mobile/touch */}
+      {floatingIcons
+        .filter((_, index) => {
+          // On touch devices, show only first 6 icons
+          if (isTouchDevice) return index < 6;
+          return true;
+        })
+        .map((icon, index) => (
+          <Floating3DIcon
+            key={index}
+            {...icon}
+            mouseX={mousePosition.x}
+            mouseY={mousePosition.y}
+            scrollY={scrollY}
+            prefersReducedMotion={prefersReducedMotion || isTouchDevice}
+          />
+        ))}
 
       {/* Rotating geometric shapes */}
       <motion.div
         className="absolute w-96 h-96 border border-primary/10 rounded-full hidden lg:block"
         style={{ right: '5%', top: '10%', y: y2 }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+        animate={prefersReducedMotion ? {} : { rotate: 360 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 30, repeat: Infinity, ease: 'linear' }}
       >
         <motion.div
           className="absolute top-0 left-1/2 w-4 h-4 -translate-x-1/2 -translate-y-1/2 bg-primary rounded-full"
@@ -274,8 +309,8 @@ const HeroSection = () => {
       <motion.div
         className="absolute w-64 h-64 border border-secondary/10 hidden lg:block"
         style={{ left: '5%', bottom: '20%', rotate: 45 }}
-        animate={{ rotate: [45, 225, 45] }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        animate={prefersReducedMotion ? {} : { rotate: [45, 225, 45] }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 20, repeat: Infinity, ease: 'linear' }}
       />
 
       {/* Hexagon pattern */}
@@ -283,8 +318,8 @@ const HeroSection = () => {
         className="absolute left-[10%] top-[30%] w-32 h-32 text-primary/20 hidden lg:block"
         viewBox="0 0 100 100"
         style={{ y: y1 }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+        animate={prefersReducedMotion ? {} : { rotate: 360 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 25, repeat: Infinity, ease: 'linear' }}
       >
         <polygon
           points="50,3 95,25 95,75 50,97 5,75 5,25"
@@ -525,8 +560,12 @@ const HeroSection = () => {
           className={`absolute ${corner.pos} w-20 h-20 ${corner.border} border-primary/30`}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1 + i * 0.1, duration: 0.5 }}
-          whileHover={{ borderColor: 'hsl(187 100% 47%)', scale: 1.1 }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { delay: 1 + i * 0.1, duration: 0.5 }
+          }
+          whileHover={prefersReducedMotion ? {} : { borderColor: 'hsl(187 100% 47%)', scale: 1.1 }}
         />
       ))}
     </section>

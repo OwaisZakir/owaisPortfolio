@@ -1,5 +1,6 @@
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { useRef, useState } from 'react';
+import { useIsTouchDevice } from '@/hooks/use-is-touch-device';
 import {
   Send,
   Mail,
@@ -139,8 +140,11 @@ const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const isTouchDevice = useIsTouchDevice();
 
   // 3D card effect
   const cardRef = useRef<HTMLFormElement>(null);
@@ -150,41 +154,122 @@ const ContactSection = () => {
   const rotateY = useSpring(mouseX, { stiffness: 100, damping: 20 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!cardRef.current) return;
+    if (isTouchDevice || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     mouseX.set((e.clientX - rect.left - rect.width / 2) / 50);
     mouseY.set((rect.top + rect.height / 2 - e.clientY) / 50);
   };
 
+  const validateField = (name: string, value: string): string => {
+    switch (name) {
+      case 'name':
+        if (!value.trim()) return 'Name is required';
+        if (value.trim().length < 2) return 'Name must be at least 2 characters';
+        return '';
+      case 'email':
+        if (!value.trim()) return 'Email is required';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return 'Please enter a valid email address';
+        return '';
+      case 'subject':
+        if (!value.trim()) return 'Subject is required';
+        if (value.trim().length < 3) return 'Subject must be at least 3 characters';
+        return '';
+      case 'message':
+        if (!value.trim()) return 'Message is required';
+        if (value.trim().length < 10) return 'Message must be at least 10 characters';
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    Object.keys(formData).forEach((key) => {
+      const error = validateField(key, formData[key as keyof typeof formData]);
+      if (error) newErrors[key] = error;
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error('Please fix the errors in your form', {
+        description: 'Check that all fields are filled correctly.',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Simulate processing time
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Simulate processing time with progress
+    for (let i = 0; i < 3; i++) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
 
     // Save to localStorage
     saveSubmission(formData);
 
+    // Show success notification with celebration
     toast.success('Message sent successfully!', {
       description: "Your message has been saved. I'll get back to you soon!",
-      icon: <Sparkles className="w-4 h-4" />,
+      icon: <motion.div
+        initial={{ scale: 0, rotate: -360 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ type: 'spring', duration: 0.6 }}
+      >
+        <Sparkles className="w-4 h-4" />
+      </motion.div>,
+      duration: 4000,
     });
 
+    // Trigger success animation (button feedback)
     setFormData({ name: '', email: '', subject: '', message: '' });
+    setErrors({});
+    setTouchedFields({});
     setIsSubmitting(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Real-time validation on change
+    if (touchedFields[name]) {
+      const error = validateField(name, value);
+      setErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
+    }
   };
 
-  const inputClasses = (fieldName: string) =>
-    `w-full px-5 py-4 bg-muted/30 border rounded-xl font-mono text-sm placeholder:text-muted-foreground focus:outline-none transition-all duration-300 ${
-      focusedField === fieldName
-        ? 'border-primary ring-2 ring-primary/20 bg-muted/50'
-        : 'border-border hover:border-primary/50'
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTouchedFields((prev) => ({ ...prev, [name]: true }));
+    const error = validateField(name, value);
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
+  };
+
+  const inputClasses = (fieldName: string) => {
+    const hasError = errors[fieldName];
+    const isTouched = touchedFields[fieldName];
+
+    return `w-full px-5 py-4 bg-muted/30 border rounded-xl font-mono text-sm placeholder:text-muted-foreground focus:outline-none transition-all duration-300 ${
+      hasError && isTouched
+        ? 'border-destructive ring-2 ring-destructive/20 bg-destructive/5'
+        : focusedField === fieldName
+          ? 'border-primary ring-2 ring-primary/20 bg-muted/50'
+          : 'border-border hover:border-primary/50'
     }`;
+  };
 
   return (
     <section id="contact" className="relative py-24 md:py-32 overflow-hidden">
@@ -317,25 +402,29 @@ const ContactSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Contact Form with 3D effect */}
+          {/* Contact Form with 3D effect (disabled on touch) */}
           <motion.form
             ref={cardRef}
             onSubmit={handleSubmit}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={() => {
-              mouseX.set(0);
-              mouseY.set(0);
-            }}
-            initial={{ opacity: 0, x: 50, rotateY: 15 }}
+            onMouseMove={isTouchDevice ? undefined : handleMouseMove}
+            onMouseLeave={
+              isTouchDevice
+                ? undefined
+                : () => {
+                    mouseX.set(0);
+                    mouseY.set(0);
+                  }
+            }
+            initial={{ opacity: 0, x: 50, rotateY: isTouchDevice ? 0 : 15 }}
             animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
             className="cyber-card p-8 space-y-6 relative overflow-hidden"
             style={{
-              perspective: 1000,
-              transformStyle: 'preserve-3d',
-              rotateX,
-              rotateY,
-            }}
+              perspective: isTouchDevice ? 'none' : 1000,
+              transformStyle: isTouchDevice ? 'flat' : 'preserve-3d',
+              rotateX: isTouchDevice ? 0 : rotateX,
+              rotateY: isTouchDevice ? 0 : rotateY,
+            } as React.CSSProperties}
           >
             {/* Animated border */}
             <motion.div
@@ -363,11 +452,23 @@ const ContactSection = () => {
                     value={formData.name}
                     onChange={handleChange}
                     onFocus={() => setFocusedField('name')}
-                    onBlur={() => setFocusedField(null)}
+                    onBlur={(e) => {
+                      setFocusedField(null);
+                      handleBlur(e);
+                    }}
                     required
                     className={inputClasses('name')}
                     placeholder="John Doe"
                   />
+                  {errors.name && touchedFields.name && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-destructive text-xs font-medium"
+                    >
+                      {errors.name}
+                    </motion.p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="email" className="block font-display text-sm uppercase tracking-wider text-muted-foreground">
@@ -380,11 +481,23 @@ const ContactSection = () => {
                     value={formData.email}
                     onChange={handleChange}
                     onFocus={() => setFocusedField('email')}
-                    onBlur={() => setFocusedField(null)}
+                    onBlur={(e) => {
+                      setFocusedField(null);
+                      handleBlur(e);
+                    }}
                     required
                     className={inputClasses('email')}
                     placeholder="john@example.com"
                   />
+                  {errors.email && touchedFields.email && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-destructive text-xs font-medium"
+                    >
+                      {errors.email}
+                    </motion.p>
+                  )}
                 </div>
               </div>
 
@@ -399,11 +512,23 @@ const ContactSection = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   onFocus={() => setFocusedField('subject')}
-                  onBlur={() => setFocusedField(null)}
+                  onBlur={(e) => {
+                    setFocusedField(null);
+                    handleBlur(e);
+                  }}
                   required
                   className={inputClasses('subject')}
                   placeholder="Project Collaboration"
                 />
+                {errors.subject && touchedFields.subject && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-destructive text-xs font-medium"
+                  >
+                    {errors.subject}
+                  </motion.p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -416,19 +541,31 @@ const ContactSection = () => {
                   value={formData.message}
                   onChange={handleChange}
                   onFocus={() => setFocusedField('message')}
-                  onBlur={() => setFocusedField(null)}
+                  onBlur={(e) => {
+                    setFocusedField(null);
+                    handleBlur(e);
+                  }}
                   required
                   rows={5}
                   className={`${inputClasses('message')} resize-none`}
                   placeholder="Tell me about your project..."
                 />
+                {errors.message && touchedFields.message && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-destructive text-xs font-medium"
+                  >
+                    {errors.message}
+                  </motion.p>
+                )}
               </div>
 
               <motion.button
                 type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: 1.02, boxShadow: '0 0 40px hsl(187 100% 47% / 0.4)' }}
-                whileTap={{ scale: 0.98 }}
+                disabled={isSubmitting || Object.keys(errors).length > 0}
+                whileHover={Object.keys(errors).length === 0 && !isSubmitting ? { scale: 1.02, boxShadow: '0 0 40px hsl(187 100% 47% / 0.4)' } : {}}
+                whileTap={Object.keys(errors).length === 0 && !isSubmitting ? { scale: 0.98 } : {}}
                 className="w-full cyber-btn py-5 bg-primary text-primary-foreground font-display uppercase tracking-wider flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed relative overflow-hidden group"
               >
                 {/* Shine effect */}
