@@ -275,17 +275,23 @@ const HeroSection = () => {
         transition={prefersReducedMotion ? { duration: 0 } : { duration: 60, repeat: Infinity, ease: 'linear' }}
       />
 
-      {/* Floating 3D Icons */}
-      {floatingIcons.map((icon, index) => (
-        <Floating3DIcon
-          key={index}
-          {...icon}
-          mouseX={mousePosition.x}
-          mouseY={mousePosition.y}
-          scrollY={scrollY}
-          prefersReducedMotion={prefersReducedMotion}
-        />
-      ))}
+      {/* Floating 3D Icons - Reduced on mobile/touch */}
+      {floatingIcons
+        .filter((_, index) => {
+          // On touch devices, show only first 6 icons
+          if (isTouchDevice) return index < 6;
+          return true;
+        })
+        .map((icon, index) => (
+          <Floating3DIcon
+            key={index}
+            {...icon}
+            mouseX={mousePosition.x}
+            mouseY={mousePosition.y}
+            scrollY={scrollY}
+            prefersReducedMotion={prefersReducedMotion || isTouchDevice}
+          />
+        ))}
 
       {/* Rotating geometric shapes */}
       <motion.div
