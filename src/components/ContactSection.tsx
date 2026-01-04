@@ -435,11 +435,23 @@ const ContactSection = () => {
                     value={formData.name}
                     onChange={handleChange}
                     onFocus={() => setFocusedField('name')}
-                    onBlur={() => setFocusedField(null)}
+                    onBlur={(e) => {
+                      setFocusedField(null);
+                      handleBlur(e);
+                    }}
                     required
                     className={inputClasses('name')}
                     placeholder="John Doe"
                   />
+                  {errors.name && touchedFields.name && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-destructive text-xs font-medium"
+                    >
+                      {errors.name}
+                    </motion.p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="email" className="block font-display text-sm uppercase tracking-wider text-muted-foreground">
@@ -452,11 +464,23 @@ const ContactSection = () => {
                     value={formData.email}
                     onChange={handleChange}
                     onFocus={() => setFocusedField('email')}
-                    onBlur={() => setFocusedField(null)}
+                    onBlur={(e) => {
+                      setFocusedField(null);
+                      handleBlur(e);
+                    }}
                     required
                     className={inputClasses('email')}
                     placeholder="john@example.com"
                   />
+                  {errors.email && touchedFields.email && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-destructive text-xs font-medium"
+                    >
+                      {errors.email}
+                    </motion.p>
+                  )}
                 </div>
               </div>
 
