@@ -16,6 +16,7 @@ const CyberNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
