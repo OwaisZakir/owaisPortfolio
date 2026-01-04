@@ -46,6 +46,7 @@ interface Floating3DIconProps {
   mouseX: number;
   mouseY: number;
   scrollY: any;
+  prefersReducedMotion?: boolean;
 }
 
 const Floating3DIcon = ({
@@ -58,6 +59,7 @@ const Floating3DIcon = ({
   mouseX,
   mouseY,
   scrollY,
+  prefersReducedMotion = false,
 }: Floating3DIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
