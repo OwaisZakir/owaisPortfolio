@@ -17,6 +17,7 @@ const Index = () => {
   return (
     <ErrorBoundary>
       <SkipLink />
+      <ThemeToggle />
       <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
         {/* Mouse Follower Effect */}
         <MouseFollower />
