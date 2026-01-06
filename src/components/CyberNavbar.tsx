@@ -141,6 +141,9 @@ const CyberNavbar = () => {
               exit={prefersReducedMotion ? { x: 0 } : { x: '100%' }}
               transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: 'easeInOut' }}
               className="fixed right-0 top-0 bottom-0 z-50 w-64 bg-background/95 backdrop-blur-xl border-l border-primary/20 md:hidden"
+              role="region"
+              aria-label="Mobile navigation menu"
+              id="mobile-menu"
             >
               {/* Drawer Header */}
               <div className="flex items-center justify-between h-20 px-6 border-b border-border/50">
