@@ -239,7 +239,11 @@ const HeroSection = () => {
       {/* Multiple gradient orbs */}
       <motion.div
         className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl"
-        style={{ x: prefersReducedMotion ? 0 : mousePosition.x * 0.5, y: prefersReducedMotion ? 0 : mousePosition.y * 0.5 }}
+        style={{
+          x: prefersReducedMotion ? 0 : mousePosition.x * 0.5,
+          y: prefersReducedMotion ? 0 : mousePosition.y * 0.5,
+          willChange: 'transform'
+        }}
         animate={
           prefersReducedMotion
             ? {}
