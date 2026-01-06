@@ -77,13 +77,23 @@
 
   /* Screen reader only utility */
   .sr-only {
-    @apply absolute w-1 h-1 p-0 -m-1 overflow-hidden clip-path-inset-50%;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
   }
 
-  .focus:not-sr-only {
-    @apply relative w-auto h-auto p-0 m-0 overflow-visible clip-path-none;
+  .focus\:not-sr-only:focus {
+    position: relative;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
     clip-path: auto;
     white-space: normal;
   }
