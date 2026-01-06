@@ -197,6 +197,8 @@ const Floating3DIcon = ({
   );
 };
 
+const MemoizedFloating3DIcon = memo(Floating3DIcon);
+
 const HeroSection = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { scrollY } = useScroll();
