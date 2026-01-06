@@ -46,6 +46,8 @@ const CyberNavbar = () => {
             ? 'bg-background/90 backdrop-blur-lg border-b border-primary/20'
             : 'bg-transparent'
         }`}
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
