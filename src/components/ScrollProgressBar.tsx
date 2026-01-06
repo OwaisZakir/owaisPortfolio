@@ -1,30 +1,11 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useActiveSection } from '@/hooks/use-active-section';
 
 const sections = ['home', 'about', 'skills', 'projects', 'experience', 'contact'];
 
 const ScrollProgressBar = () => {
   const { scrollYProgress } = useScroll();
-  const [currentSection, setCurrentSection] = useState('home');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Find current section based on scroll position
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= window.innerHeight / 2) {
-            setCurrentSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const currentSection = useActiveSection(sections);
 
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
