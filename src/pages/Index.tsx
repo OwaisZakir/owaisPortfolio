@@ -2,6 +2,7 @@ import ParticleField from '@/components/ParticleField';
 import MouseFollower from '@/components/MouseFollower';
 import CyberNavbar from '@/components/CyberNavbar';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
+import SkipLink from '@/components/SkipLink';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import SkillsSection from '@/components/SkillsSection';
@@ -14,6 +15,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 const Index = () => {
   return (
     <ErrorBoundary>
+      <SkipLink />
       <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
         {/* Mouse Follower Effect */}
         <MouseFollower />
@@ -28,7 +30,7 @@ const Index = () => {
         <CyberNavbar />
 
         {/* Main Content */}
-        <main className="relative z-10">
+        <main id="main-content" className="relative z-10">
           <ErrorBoundary>
             <HeroSection />
           </ErrorBoundary>
