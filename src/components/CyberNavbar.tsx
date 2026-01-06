@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Terminal } from 'lucide-react';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { useActiveSection } from '@/hooks/use-active-section';
 
 const navItems = [
   { name: 'Home', href: '#home' },
@@ -15,25 +16,13 @@ const navItems = [
 const CyberNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
   const prefersReducedMotion = useReducedMotion();
+  const sectionIds = navItems.map(item => item.href.slice(1));
+  const activeSection = useActiveSection(sectionIds);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      
-      // Update active section based on scroll position
-      const sections = navItems.map(item => item.href.slice(1));
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 150) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -57,6 +46,8 @@ const CyberNavbar = () => {
             ? 'bg-background/90 backdrop-blur-lg border-b border-primary/20'
             : 'bg-transparent'
         }`}
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
@@ -115,7 +106,10 @@ const CyberNavbar = () => {
               whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
               whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-foreground hover:text-primary transition-colors"
+              className="md:hidden p-3 text-foreground hover:text-primary transition-colors rounded-lg focus:outline-none focus:ring-2 focus:ring-primary min-h-[44px] min-w-[44px] flex items-center justify-center"
+              aria-label="Toggle navigation menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </motion.button>
@@ -147,6 +141,9 @@ const CyberNavbar = () => {
               exit={prefersReducedMotion ? { x: 0 } : { x: '100%' }}
               transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: 'easeInOut' }}
               className="fixed right-0 top-0 bottom-0 z-50 w-64 bg-background/95 backdrop-blur-xl border-l border-primary/20 md:hidden"
+              role="region"
+              aria-label="Mobile navigation menu"
+              id="mobile-menu"
             >
               {/* Drawer Header */}
               <div className="flex items-center justify-between h-20 px-6 border-b border-border/50">

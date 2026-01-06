@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useReducedMotion } from '@/hooks/use-reduced-motion';
 
 interface Particle {
   x: number;
@@ -15,6 +16,7 @@ const ParticleField = () => {
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const animationRef = useRef<number>();
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -46,7 +48,9 @@ const ParticleField = () => {
     }));
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      if (!prefersReducedMotion) {
+        mouseRef.current = { x: e.clientX, y: e.clientY };
+      }
     };
     window.addEventListener('mousemove', handleMouseMove);
 
@@ -54,30 +58,32 @@ const ParticleField = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particlesRef.current.forEach((particle, i) => {
-        // Update position
-        particle.x += particle.vx;
-        particle.y += particle.vy;
+        // Update position - skip if reduced motion
+        if (!prefersReducedMotion) {
+          particle.x += particle.vx;
+          particle.y += particle.vy;
 
-        // Mouse interaction
-        const dx = mouseRef.current.x - particle.x;
-        const dy = mouseRef.current.y - particle.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 150) {
-          const force = (150 - distance) / 150;
-          particle.vx -= (dx / distance) * force * 0.02;
-          particle.vy -= (dy / distance) * force * 0.02;
+          // Mouse interaction
+          const dx = mouseRef.current.x - particle.x;
+          const dy = mouseRef.current.y - particle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 150) {
+            const force = (150 - distance) / 150;
+            particle.vx -= (dx / distance) * force * 0.02;
+            particle.vy -= (dy / distance) * force * 0.02;
+          }
+
+          // Boundary check with wrap-around
+          if (particle.x < 0) particle.x = canvas.width;
+          if (particle.x > canvas.width) particle.x = 0;
+          if (particle.y < 0) particle.y = canvas.height;
+          if (particle.y > canvas.height) particle.y = 0;
+
+          // Apply friction
+          particle.vx *= 0.99;
+          particle.vy *= 0.99;
         }
-
-        // Boundary check with wrap-around
-        if (particle.x < 0) particle.x = canvas.width;
-        if (particle.x > canvas.width) particle.x = 0;
-        if (particle.y < 0) particle.y = canvas.height;
-        if (particle.y > canvas.height) particle.y = 0;
-
-        // Apply friction
-        particle.vx *= 0.99;
-        particle.vy *= 0.99;
 
         // Draw particle
         ctx.beginPath();
@@ -86,29 +92,44 @@ const ParticleField = () => {
         ctx.globalAlpha = particle.opacity;
         ctx.fill();
 
-        // Draw connections
-        particlesRef.current.slice(i + 1).forEach((other) => {
-          const dx = particle.x - other.x;
-          const dy = particle.y - other.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+        // Draw connections - skip if reduced motion
+        if (!prefersReducedMotion) {
+          particlesRef.current.slice(i + 1).forEach((other) => {
+            const dx = particle.x - other.x;
+            const dy = particle.y - other.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 120) {
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(other.x, other.y);
-            ctx.strokeStyle = particle.color;
-            ctx.globalAlpha = (1 - distance / 120) * 0.2;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        });
+            if (distance < 120) {
+              ctx.beginPath();
+              ctx.moveTo(particle.x, particle.y);
+              ctx.lineTo(other.x, other.y);
+              ctx.strokeStyle = particle.color;
+              ctx.globalAlpha = (1 - distance / 120) * 0.2;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          });
+        }
       });
 
       ctx.globalAlpha = 1;
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    animate();
+    // Only animate if not reduced motion
+    if (!prefersReducedMotion) {
+      animate();
+    } else {
+      // Still draw particles in static state
+      particlesRef.current.forEach((particle) => {
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = particle.color;
+        ctx.globalAlpha = particle.opacity;
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    }
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
@@ -117,7 +138,7 @@ const ParticleField = () => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <canvas

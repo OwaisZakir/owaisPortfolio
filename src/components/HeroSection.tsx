@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, memo } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
@@ -197,6 +197,8 @@ const Floating3DIcon = ({
   );
 };
 
+const MemoizedFloating3DIcon = memo(Floating3DIcon);
+
 const HeroSection = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { scrollY } = useScroll();
@@ -239,7 +241,11 @@ const HeroSection = () => {
       {/* Multiple gradient orbs */}
       <motion.div
         className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl"
-        style={{ x: prefersReducedMotion ? 0 : mousePosition.x * 0.5, y: prefersReducedMotion ? 0 : mousePosition.y * 0.5 }}
+        style={{
+          x: prefersReducedMotion ? 0 : mousePosition.x * 0.5,
+          y: prefersReducedMotion ? 0 : mousePosition.y * 0.5,
+          willChange: 'transform'
+        }}
         animate={
           prefersReducedMotion
             ? {}
@@ -252,7 +258,11 @@ const HeroSection = () => {
       />
       <motion.div
         className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl"
-        style={{ x: prefersReducedMotion ? 0 : mousePosition.x * -0.3, y: prefersReducedMotion ? 0 : mousePosition.y * -0.3 }}
+        style={{
+          x: prefersReducedMotion ? 0 : mousePosition.x * -0.3,
+          y: prefersReducedMotion ? 0 : mousePosition.y * -0.3,
+          willChange: 'transform'
+        }}
         animate={
           prefersReducedMotion
             ? {}
@@ -283,7 +293,7 @@ const HeroSection = () => {
           return true;
         })
         .map((icon, index) => (
-          <Floating3DIcon
+          <MemoizedFloating3DIcon
             key={index}
             {...icon}
             mouseX={mousePosition.x}
