@@ -138,7 +138,7 @@ const ParticleField = () => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <canvas
