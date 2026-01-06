@@ -9,35 +9,52 @@ import ProjectsSection from '@/components/ProjectsSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const Index = () => {
   return (
-    <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
-      {/* Mouse Follower Effect */}
-      <MouseFollower />
+    <ErrorBoundary>
+      <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+        {/* Mouse Follower Effect */}
+        <MouseFollower />
 
-      {/* Background Particle System */}
-      <ParticleField />
+        {/* Background Particle System */}
+        <ParticleField />
 
-      {/* Scroll Progress Bar */}
-      <ScrollProgressBar />
+        {/* Scroll Progress Bar */}
+        <ScrollProgressBar />
 
-      {/* Navigation */}
-      <CyberNavbar />
-      
-      {/* Main Content */}
-      <main className="relative z-10">
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <ExperienceSection />
-        <ContactSection />
-      </main>
-      
-      {/* Footer */}
-      <Footer />
-    </div>
+        {/* Navigation */}
+        <CyberNavbar />
+
+        {/* Main Content */}
+        <main className="relative z-10">
+          <ErrorBoundary>
+            <HeroSection />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <AboutSection />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <SkillsSection />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <ProjectsSection />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <ExperienceSection />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <ContactSection />
+          </ErrorBoundary>
+        </main>
+
+        {/* Footer */}
+        <ErrorBoundary>
+          <Footer />
+        </ErrorBoundary>
+      </div>
+    </ErrorBoundary>
   );
 };
 
