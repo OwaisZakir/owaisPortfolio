@@ -293,7 +293,7 @@ const HeroSection = () => {
           return true;
         })
         .map((icon, index) => (
-          <Floating3DIcon
+          <MemoizedFloating3DIcon
             key={index}
             {...icon}
             mouseX={mousePosition.x}
