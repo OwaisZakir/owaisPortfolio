@@ -256,7 +256,11 @@ const HeroSection = () => {
       />
       <motion.div
         className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl"
-        style={{ x: prefersReducedMotion ? 0 : mousePosition.x * -0.3, y: prefersReducedMotion ? 0 : mousePosition.y * -0.3 }}
+        style={{
+          x: prefersReducedMotion ? 0 : mousePosition.x * -0.3,
+          y: prefersReducedMotion ? 0 : mousePosition.y * -0.3,
+          willChange: 'transform'
+        }}
         animate={
           prefersReducedMotion
             ? {}
