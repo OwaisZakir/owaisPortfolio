@@ -75,6 +75,19 @@
     scroll-behavior: smooth;
   }
 
+  /* Screen reader only utility */
+  .sr-only {
+    @apply absolute w-1 h-1 p-0 -m-1 overflow-hidden clip-path-inset-50%;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .focus:not-sr-only {
+    @apply relative w-auto h-auto p-0 m-0 overflow-visible clip-path-none;
+    clip-path: auto;
+    white-space: normal;
+  }
+
   body {
     @apply bg-background text-foreground font-body antialiased;
     font-family: var(--font-body);
