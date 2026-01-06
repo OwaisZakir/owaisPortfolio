@@ -337,6 +337,41 @@
     left: 100%;
   }
 
+  /* Mobile-first touch targets */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improve spacing on mobile */
+  @media (max-width: 640px) {
+    section {
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 1.875rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* Tablet optimizations */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    section {
+      padding: 3rem 2rem;
+    }
+  }
+
+  /* Desktop optimizations */
+  @media (min-width: 1025px) {
+    section {
+      padding: 4rem 2rem;
+    }
+  }
+
   /* Tech line decoration */
   .tech-line {
     @apply h-px bg-gradient-to-r from-transparent via-primary to-transparent;
