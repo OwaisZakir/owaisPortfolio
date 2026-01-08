@@ -303,41 +303,34 @@ const AboutSection = () => {
                 <GraduationCap className="w-6 h-6 text-primary" />
               </motion.div>
               <div>
-                <h3 className="font-display text-lg font-semibold">Final Year Student</h3>
-                <p className="text-muted-foreground text-sm">Software Engineering</p>
+                <h3 className="font-display text-lg font-semibold">MCA Student</h3>
+                <p className="text-muted-foreground text-sm">Suffah Institute of Technology</p>
               </div>
             </motion.div>
 
             <p className="text-foreground text-lg leading-relaxed">
-              I'm a passionate technologist who lives at the intersection of
+              I'm a
               <motion.span
                 className="text-primary font-semibold mx-1"
                 whileHover={{ scale: 1.1 }}
               >
-                development
+                Full-Stack Engineer
               </motion.span>
-              and
+              passionate about helping businesses and startups transform how they operate through
               <motion.span
                 className="text-secondary font-semibold mx-1"
                 whileHover={{ scale: 1.1 }}
               >
-                security
+                ERP, POS, and automation solutions
               </motion.span>.
-              With a deep understanding of both building and breaking systems,
-              I bring a unique perspective to every project.
             </p>
 
             <p className="text-muted-foreground leading-relaxed">
-              As a final-year Software Engineering student, I've dedicated myself to mastering
-              the MERN stack while simultaneously developing expertise in cybersecurity.
-              This dual focus allows me to create applications that are not only functional
-              and beautiful but also inherently secure.
+              Based in Karachi, Pakistan, I've spent years designing and building systems that don't just work—they scale. My focus is on creating <strong>fast, stable, production-ready software</strong> built around real-world business needs. I blend technical precision with a business-first mindset, ensuring every line of code contributes to performance, growth, and real impact.
             </p>
 
             <p className="text-muted-foreground leading-relaxed">
-              Beyond coding, I thrive in leadership roles—managing teams, mentoring developers,
-              and driving projects from concept to deployment. My hackathon victories are a
-              testament to my ability to innovate under pressure and deliver results.
+              With expertise in the MERN stack, API development, scalable architecture, and security-first practices, I deliver solutions that transform operations. Always open to connecting whether it's about projects, collaboration, or sharing ideas in tech and digital transformation.
             </p>
 
             {/* Tags */}
