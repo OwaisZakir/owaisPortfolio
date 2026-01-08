@@ -341,9 +341,9 @@ const AboutSection = () => {
               className="flex flex-wrap gap-3 pt-4"
             >
               {[
-                { text: 'Always learning', icon: Zap, color: 'hsl(152, 100%, 50%)' },
-                { text: 'Building the future', icon: Code2, color: 'hsl(187, 100%, 47%)' },
-                { text: 'Security first', icon: Shield, color: 'hsl(274, 73%, 58%)' },
+                { text: 'Scalable Architecture', icon: Zap, color: 'hsl(152, 100%, 50%)' },
+                { text: 'Production Ready', icon: Code2, color: 'hsl(187, 100%, 47%)' },
+                { text: 'Security First', icon: Shield, color: 'hsl(274, 73%, 58%)' },
               ].map((tag, i) => (
                 <motion.div
                   key={tag.text}
