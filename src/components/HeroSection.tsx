@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'fram
 import Typewriter from 'typewriter-effect';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useIsTouchDevice } from '@/hooks/use-is-touch-device';
+import { downloadResume } from '@/lib/resume-generator';
 import {
   ChevronDown,
   Github,
@@ -20,6 +21,7 @@ import {
   Zap,
   Binary,
   Network,
+  Download,
 } from 'lucide-react';
 
 const floatingIcons = [
