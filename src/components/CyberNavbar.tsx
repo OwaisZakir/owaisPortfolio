@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Terminal } from 'lucide-react';
+import { Menu, X, Terminal, Download } from 'lucide-react';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useActiveSection } from '@/hooks/use-active-section';
+import { downloadResume } from '@/lib/resume-generator';
 
 const navItems = [
   { name: 'Home', href: '#home' },
