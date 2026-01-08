@@ -447,8 +447,29 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 flex-wrap"
           >
+            <motion.button
+              onClick={downloadResume}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 0 40px hsl(152 100% 50% / 0.5)',
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="cyber-btn px-10 py-5 bg-accent text-accent-foreground font-display text-lg relative overflow-hidden group font-bold tracking-wider"
+            >
+              <motion.span
+                className="absolute inset-0 bg-gradient-to-r from-accent via-primary to-accent"
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                style={{ opacity: 0.3 }}
+              />
+              <span className="relative z-10 flex items-center gap-2">
+                <Download size={20} />
+                Download Resume
+              </span>
+            </motion.button>
+
             <motion.a
               href="#projects"
               onClick={(e) => {
@@ -486,7 +507,7 @@ const HeroSection = () => {
             >
               <span className="flex items-center gap-2">
                 <Mail size={20} />
-                Contact Me
+                Get In Touch
               </span>
             </motion.a>
           </motion.div>
