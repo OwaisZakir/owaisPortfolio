@@ -497,8 +497,8 @@ const HeroSection = () => {
             className="flex items-center justify-center gap-6"
           >
             {[
-              { Icon: Github, href: '#', label: 'GitHub', color: 'hsl(187, 100%, 47%)' },
-              { Icon: Linkedin, href: '#', label: 'LinkedIn', color: 'hsl(274, 73%, 58%)' },
+              { Icon: Github, href: 'https://github.com/OwaisZakir', label: 'GitHub', color: 'hsl(187, 100%, 47%)' },
+              { Icon: Linkedin, href: 'https://www.linkedin.com/in/owaiszakir/', label: 'LinkedIn', color: 'hsl(274, 73%, 58%)' },
               { Icon: Mail, href: '#contact', label: 'Email', color: 'hsl(152, 100%, 50%)' },
             ].map(({ Icon, href, label, color }) => (
               <motion.a
