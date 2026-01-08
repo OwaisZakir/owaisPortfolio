@@ -386,7 +386,7 @@ const HeroSection = () => {
               className="text-foreground inline-block"
               whileHover={{ scale: 1.05 }}
             >
-              CYBER
+              OWAIS
             </motion.span>
             <motion.span
               className="gradient-text inline-block ml-4"
@@ -401,7 +401,7 @@ const HeroSection = () => {
               }}
               transition={{ duration: 4, repeat: Infinity }}
             >
-              DEVELOPER
+              ZAKIR
             </motion.span>
           </motion.h1>
 
@@ -415,11 +415,11 @@ const HeroSection = () => {
             <Typewriter
               options={{
                 strings: [
-                  '<MERN Stack Developer />',
-                  '{ Cybersecurity Specialist }',
-                  '[ Project Lead & Manager ]',
-                  '// Hackathon Champion',
-                  'def innovate(): return "success"',
+                  'MERN Stack Developer',
+                  'React • Node.js • MongoDB • Express',
+                  'Full-Stack Engineer',
+                  'API Integration & Scalable Architecture',
+                  'Building Digital Transformation Solutions',
                 ],
                 autoStart: true,
                 loop: true,
@@ -436,13 +436,8 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body leading-relaxed"
           >
-            Building{' '}
-            <span className="text-primary font-semibold">secure</span>,{' '}
-            <span className="text-secondary font-semibold">scalable</span>{' '}
-            applications with cutting-edge technology. Final-year Software
-            Engineering student passionate about{' '}
-            <span className="text-accent font-semibold">cybersecurity</span> and
-            innovation.
+            I'm a{' '}
+            <span className="text-primary font-semibold">Full-Stack Engineer (MERN Stack)</span> passionate about helping businesses and startups transform how they operate through <span className="text-secondary font-semibold">ERP, POS, and automation solutions</span>. Based in <span className="text-accent font-semibold">Karachi, Pakistan</span>, I design and build systems that scale. My focus is on creating <span className="text-primary font-semibold">fast, stable, production-ready software</span> built around real-world business needs.
           </motion.p>
 
           {/* CTA Buttons */}
