@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Terminal } from 'lucide-react';
+import { Menu, X, Terminal, Download } from 'lucide-react';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useActiveSection } from '@/hooks/use-active-section';
+import { downloadResume } from '@/lib/resume-generator';
 
 const navItems = [
   { name: 'Home', href: '#home' },
@@ -99,6 +100,22 @@ const CyberNavbar = () => {
                   <span className="relative z-10">{item.name}</span>
                 </motion.a>
               ))}
+
+              {/* Resume Download Button */}
+              <motion.button
+                onClick={downloadResume}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navItems.length * 0.1 }}
+                whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                className="ml-6 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-display text-sm font-bold tracking-wider uppercase transition-all hover:shadow-[0_0_30px_hsl(187_100%_47%/0.4)]"
+              >
+                <span className="flex items-center gap-2">
+                  <Download size={16} />
+                  Resume
+                </span>
+              </motion.button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -189,6 +206,20 @@ const CyberNavbar = () => {
                     {item.name}
                   </motion.a>
                 ))}
+
+                {/* Resume Download Button in Mobile Menu */}
+                <motion.button
+                  onClick={() => { downloadResume(); setIsMobileMenuOpen(false); }}
+                  variants={{
+                    open: { opacity: 1, x: 0 },
+                    closed: { opacity: 0, x: 20 },
+                  }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }}
+                  className="mx-6 mt-4 px-5 py-3 rounded-lg bg-primary text-primary-foreground font-display text-sm font-bold tracking-wider uppercase transition-all hover:shadow-[0_0_30px_hsl(187_100%_47%/0.4)] flex items-center justify-center gap-2"
+                >
+                  <Download size={18} />
+                  Download Resume
+                </motion.button>
               </motion.nav>
             </motion.div>
           </>

@@ -15,40 +15,40 @@ import {
 
 const highlights = [
   {
-    icon: Shield,
-    title: 'Cybersecurity Master',
-    description: 'Expert trainer in ethical hacking, penetration testing, and security best practices.',
-    color: 'hsl(274, 73%, 58%)',
-    stats: '100+ Students Trained',
-  },
-  {
     icon: Code2,
     title: 'MERN Stack Developer',
-    description: 'Building full-stack applications with MongoDB, Express, React, and Node.js.',
+    description: 'Building scalable full-stack applications with React, Node.js, MongoDB, and Express.',
     color: 'hsl(187, 100%, 47%)',
-    stats: '50+ Projects Built',
+    stats: '65+ Projects',
+  },
+  {
+    icon: Shield,
+    title: 'Security-First Approach',
+    description: 'Cisco Certified in Cybersecurity with expertise in secure architecture and best practices.',
+    color: 'hsl(274, 73%, 58%)',
+    stats: 'Certified',
   },
   {
     icon: Users,
-    title: 'Project Manager',
-    description: 'Leading cross-functional teams to deliver complex software projects on time.',
+    title: 'ERP & POS Solutions',
+    description: 'Designing and integrating comprehensive business systems for startups and enterprises.',
     color: 'hsl(152, 100%, 50%)',
-    stats: '15+ Teams Led',
+    stats: 'Enterprise Scale',
   },
   {
     icon: Trophy,
-    title: 'Hackathon Winner',
-    description: 'Multiple first-place finishes leading innovative teams in competitive events.',
+    title: 'Business-First Mindset',
+    description: 'Every line of code contributes to real-world business impact and scalability.',
     color: 'hsl(187, 100%, 47%)',
-    stats: '5+ Wins',
+    stats: 'Production Ready',
   },
 ];
 
 const stats = [
-  { value: '50+', label: 'Projects Completed', icon: Rocket, color: 'hsl(187, 100%, 47%)' },
-  { value: '3+', label: 'Years Experience', icon: Star, color: 'hsl(274, 73%, 58%)' },
-  { value: '100+', label: 'Students Trained', icon: Target, color: 'hsl(152, 100%, 50%)' },
-  { value: '5+', label: 'Hackathons Won', icon: Award, color: 'hsl(187, 100%, 47%)' },
+  { value: '65+', label: 'GitHub Repositories', icon: Rocket, color: 'hsl(187, 100%, 47%)' },
+  { value: '500+', label: 'LinkedIn Connections', icon: Star, color: 'hsl(274, 73%, 58%)' },
+  { value: '9', label: 'Months at Suffah Tech', icon: Target, color: 'hsl(152, 100%, 50%)' },
+  { value: '5', label: 'Certifications', icon: Award, color: 'hsl(187, 100%, 47%)' },
 ];
 
 interface HighlightCardProps {
@@ -303,41 +303,34 @@ const AboutSection = () => {
                 <GraduationCap className="w-6 h-6 text-primary" />
               </motion.div>
               <div>
-                <h3 className="font-display text-lg font-semibold">Final Year Student</h3>
-                <p className="text-muted-foreground text-sm">Software Engineering</p>
+                <h3 className="font-display text-lg font-semibold">MCA Student</h3>
+                <p className="text-muted-foreground text-sm">Suffah Institute of Technology</p>
               </div>
             </motion.div>
 
             <p className="text-foreground text-lg leading-relaxed">
-              I'm a passionate technologist who lives at the intersection of
+              I'm a
               <motion.span
                 className="text-primary font-semibold mx-1"
                 whileHover={{ scale: 1.1 }}
               >
-                development
+                Full-Stack Engineer
               </motion.span>
-              and
+              passionate about helping businesses and startups transform how they operate through
               <motion.span
                 className="text-secondary font-semibold mx-1"
                 whileHover={{ scale: 1.1 }}
               >
-                security
+                ERP, POS, and automation solutions
               </motion.span>.
-              With a deep understanding of both building and breaking systems,
-              I bring a unique perspective to every project.
             </p>
 
             <p className="text-muted-foreground leading-relaxed">
-              As a final-year Software Engineering student, I've dedicated myself to mastering
-              the MERN stack while simultaneously developing expertise in cybersecurity.
-              This dual focus allows me to create applications that are not only functional
-              and beautiful but also inherently secure.
+              Based in Karachi, Pakistan, I've spent years designing and building systems that don't just work—they scale. My focus is on creating <strong>fast, stable, production-ready software</strong> built around real-world business needs. I blend technical precision with a business-first mindset, ensuring every line of code contributes to performance, growth, and real impact.
             </p>
 
             <p className="text-muted-foreground leading-relaxed">
-              Beyond coding, I thrive in leadership roles—managing teams, mentoring developers,
-              and driving projects from concept to deployment. My hackathon victories are a
-              testament to my ability to innovate under pressure and deliver results.
+              With expertise in the MERN stack, API development, scalable architecture, and security-first practices, I deliver solutions that transform operations. Always open to connecting whether it's about projects, collaboration, or sharing ideas in tech and digital transformation.
             </p>
 
             {/* Tags */}
@@ -348,9 +341,9 @@ const AboutSection = () => {
               className="flex flex-wrap gap-3 pt-4"
             >
               {[
-                { text: 'Always learning', icon: Zap, color: 'hsl(152, 100%, 50%)' },
-                { text: 'Building the future', icon: Code2, color: 'hsl(187, 100%, 47%)' },
-                { text: 'Security first', icon: Shield, color: 'hsl(274, 73%, 58%)' },
+                { text: 'Scalable Architecture', icon: Zap, color: 'hsl(152, 100%, 50%)' },
+                { text: 'Production Ready', icon: Code2, color: 'hsl(187, 100%, 47%)' },
+                { text: 'Security First', icon: Shield, color: 'hsl(274, 73%, 58%)' },
               ].map((tag, i) => (
                 <motion.div
                   key={tag.text}

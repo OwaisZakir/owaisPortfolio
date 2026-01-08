@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'fram
 import Typewriter from 'typewriter-effect';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useIsTouchDevice } from '@/hooks/use-is-touch-device';
+import { downloadResume } from '@/lib/resume-generator';
 import {
   ChevronDown,
   Github,
@@ -20,6 +21,7 @@ import {
   Zap,
   Binary,
   Network,
+  Download,
 } from 'lucide-react';
 
 const floatingIcons = [
@@ -386,7 +388,7 @@ const HeroSection = () => {
               className="text-foreground inline-block"
               whileHover={{ scale: 1.05 }}
             >
-              CYBER
+              OWAIS
             </motion.span>
             <motion.span
               className="gradient-text inline-block ml-4"
@@ -401,7 +403,7 @@ const HeroSection = () => {
               }}
               transition={{ duration: 4, repeat: Infinity }}
             >
-              DEVELOPER
+              ZAKIR
             </motion.span>
           </motion.h1>
 
@@ -415,11 +417,11 @@ const HeroSection = () => {
             <Typewriter
               options={{
                 strings: [
-                  '<MERN Stack Developer />',
-                  '{ Cybersecurity Specialist }',
-                  '[ Project Lead & Manager ]',
-                  '// Hackathon Champion',
-                  'def innovate(): return "success"',
+                  'MERN Stack Developer',
+                  'React • Node.js • MongoDB • Express',
+                  'Full-Stack Engineer',
+                  'API Integration & Scalable Architecture',
+                  'Building Digital Transformation Solutions',
                 ],
                 autoStart: true,
                 loop: true,
@@ -436,13 +438,8 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body leading-relaxed"
           >
-            Building{' '}
-            <span className="text-primary font-semibold">secure</span>,{' '}
-            <span className="text-secondary font-semibold">scalable</span>{' '}
-            applications with cutting-edge technology. Final-year Software
-            Engineering student passionate about{' '}
-            <span className="text-accent font-semibold">cybersecurity</span> and
-            innovation.
+            I'm a{' '}
+            <span className="text-primary font-semibold">Full-Stack Engineer (MERN Stack)</span> passionate about helping businesses and startups transform how they operate through <span className="text-secondary font-semibold">ERP, POS, and automation solutions</span>. Based in <span className="text-accent font-semibold">Karachi, Pakistan</span>, I design and build systems that scale. My focus is on creating <span className="text-primary font-semibold">fast, stable, production-ready software</span> built around real-world business needs.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -450,8 +447,29 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 flex-wrap"
           >
+            <motion.button
+              onClick={downloadResume}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 0 40px hsl(152 100% 50% / 0.5)',
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="cyber-btn px-10 py-5 bg-accent text-accent-foreground font-display text-lg relative overflow-hidden group font-bold tracking-wider"
+            >
+              <motion.span
+                className="absolute inset-0 bg-gradient-to-r from-accent via-primary to-accent"
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                style={{ opacity: 0.3 }}
+              />
+              <span className="relative z-10 flex items-center gap-2">
+                <Download size={20} />
+                Download Resume
+              </span>
+            </motion.button>
+
             <motion.a
               href="#projects"
               onClick={(e) => {
@@ -489,7 +507,7 @@ const HeroSection = () => {
             >
               <span className="flex items-center gap-2">
                 <Mail size={20} />
-                Contact Me
+                Get In Touch
               </span>
             </motion.a>
           </motion.div>
@@ -502,13 +520,15 @@ const HeroSection = () => {
             className="flex items-center justify-center gap-6"
           >
             {[
-              { Icon: Github, href: '#', label: 'GitHub', color: 'hsl(187, 100%, 47%)' },
-              { Icon: Linkedin, href: '#', label: 'LinkedIn', color: 'hsl(274, 73%, 58%)' },
+              { Icon: Github, href: 'https://github.com/OwaisZakir', label: 'GitHub', color: 'hsl(187, 100%, 47%)' },
+              { Icon: Linkedin, href: 'https://www.linkedin.com/in/owaiszakir/', label: 'LinkedIn', color: 'hsl(274, 73%, 58%)' },
               { Icon: Mail, href: '#contact', label: 'Email', color: 'hsl(152, 100%, 50%)' },
             ].map(({ Icon, href, label, color }) => (
               <motion.a
                 key={label}
                 href={href}
+                target={href.startsWith('http') ? '_blank' : undefined}
+                rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                 whileHover={{
                   scale: 1.3,
                   y: -8,

@@ -17,30 +17,30 @@ import {
 import { toast } from 'sonner';
 
 const socialLinks = [
-  { name: 'GitHub', icon: Github, href: '#', color: 'hsl(187, 100%, 47%)' },
-  { name: 'LinkedIn', icon: Linkedin, href: '#', color: 'hsl(274, 73%, 58%)' },
-  { name: 'Twitter', icon: Twitter, href: '#', color: 'hsl(152, 100%, 50%)' },
+  { name: 'GitHub', icon: Github, href: 'https://github.com/OwaisZakir', color: 'hsl(187, 100%, 47%)' },
+  { name: 'LinkedIn', icon: Linkedin, href: 'https://www.linkedin.com/in/owaiszakir/', color: 'hsl(274, 73%, 58%)' },
+  { name: 'Email', icon: Mail, href: 'mailto:owaiszakir88@gmail.com', color: 'hsl(152, 100%, 50%)' },
 ];
 
 const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@cyberdev.com',
-    href: 'mailto:hello@cyberdev.com',
+    value: 'owaiszakir88@gmail.com',
+    href: 'mailto:owaiszakir88@gmail.com',
     color: 'hsl(187, 100%, 47%)',
   },
   {
     icon: MapPin,
     label: 'Location',
-    value: 'Available Worldwide',
+    value: 'Karachi, Pakistan',
     href: null,
     color: 'hsl(274, 73%, 58%)',
   },
   {
     icon: Clock,
-    label: 'Response Time',
-    value: 'Within 24 hours',
+    label: 'Status',
+    value: 'Open to opportunities',
     href: null,
     color: 'hsl(152, 100%, 50%)',
   },
