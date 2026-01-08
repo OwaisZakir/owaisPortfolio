@@ -1,0 +1,162 @@
+{
+  "name": "Owais Zakir",
+  "title": "MERN Stack Developer | Full-Stack Engineer",
+  "email": "owaiszakir88@gmail.com",
+  "phone": "+92 3XX XXXXXXX",
+  "location": "Karachi, Pakistan",
+  "linkedin": "linkedin.com/in/owaiszakir",
+  "github": "github.com/OwaisZakir",
+  "summary": "Full-Stack Engineer (MERN Stack) passionate about helping businesses and startups transform how they operate through ERP, POS, and automation solutions. I design and build systems that scale with focus on creating fast, stable, production-ready software built around real-world business needs.",
+  "experience": [
+    {
+      "role": "Full-Stack Developer",
+      "company": "Suffah Tech",
+      "location": "Karachi, Pakistan",
+      "period": "Sep 2025 - Present",
+      "description": "Building full-stack applications with React, Node.js, MongoDB, and Express. Working on ERP/POS systems and scalable architectures.",
+      "achievements": [
+        "Developed scalable MERN architecture",
+        "Google Gemini & TypeScript integration",
+        "Production-ready applications"
+      ]
+    },
+    {
+      "role": "Frontend Developer",
+      "company": "Suffah Tech",
+      "location": "Karachi, Pakistan",
+      "period": "May 2025 - Nov 2025",
+      "description": "Developed responsive web interfaces and integrated backend services.",
+      "achievements": [
+        "Front-End Design & Development",
+        "REST API Integration",
+        "Responsive Web Design"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Master of Computer Applications (MCA)",
+      "institution": "Suffah Institute of Technology",
+      "period": "Jun 2024 - Dec 2026",
+      "specialization": "Computer Software Engineering",
+      "achievements": [
+        "TypeScript & Vite mastery",
+        "MERN Stack expertise",
+        "33+ Technical skills"
+      ]
+    }
+  ],
+  "skills": {
+    "frontend": [
+      "React.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Next.js",
+      "Redux.js",
+      "Vite",
+      "GSAP",
+      "Framer Motion"
+    ],
+    "backend": [
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "GraphQL",
+      "REST APIs",
+      "JWT",
+      "PostgreSQL"
+    ],
+    "cybersecurity": [
+      "Network Security",
+      "Threat Detection",
+      "Kali Linux",
+      "Penetration Testing",
+      "Security Best Practices"
+    ],
+    "tools": [
+      "Git & GitHub",
+      "Docker",
+      "Postman",
+      "Visual Studio",
+      "Figma",
+      "ChatGPT",
+      "Google Gemini"
+    ],
+    "business": [
+      "Project Management",
+      "ERP/POS Systems",
+      "Full-Stack Development",
+      "Agile Methodologies",
+      "Team Leadership"
+    ]
+  },
+  "certifications": [
+    {
+      "name": "Introduction to Cybersecurity",
+      "issuer": "Cisco",
+      "date": "Dec 2025",
+      "credentialId": "191e295d-f81a-4ed5-aaa1-4f072884589c",
+      "credentialUrl": "https://www.credly.com/badges/191e295d-f81a-4ed5-aaa1-4f072884589c/public_url"
+    },
+    {
+      "name": "Responsive Web Design",
+      "issuer": "Suffah Institute of Technology",
+      "date": "Dec 2024"
+    },
+    {
+      "name": "Frontend CSS Course",
+      "issuer": "Great Learning",
+      "date": "Nov 2024"
+    },
+    {
+      "name": "Frontend HTML Course",
+      "issuer": "Great Learning",
+      "date": "Nov 2024"
+    },
+    {
+      "name": "Responsive Web Design",
+      "issuer": "freeCodeCamp",
+      "date": "Nov 2024"
+    }
+  ],
+  "projects": [
+    {
+      "name": "StackWisdom",
+      "description": "Next.js + Tailwind platform for AI and Full-Stack development articles with multi-role auth, admin panel, and i18n support",
+      "technologies": ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
+      "github": "https://github.com/OwaisZakir/StackWisdom-FrontEnd"
+    },
+    {
+      "name": "Bahar-e-Madinah ERP",
+      "description": "Comprehensive ERP system for educational institutions with student/class management and attendance tracking",
+      "technologies": ["React", "Vite", "Redux Toolkit", "Ant Design"],
+      "github": "https://github.com/OwaisZakir/bahar-e-madinah-frontend"
+    },
+    {
+      "name": "School Management System Backend",
+      "description": "Scalable backend for multi-role educational management with RBAC and security",
+      "technologies": ["Node.js", "Express.js", "MongoDB", "JWT"],
+      "github": "https://github.com/OwaisZakir/School-Management-System-Backend"
+    },
+    {
+      "name": "Auth System Boilerplate",
+      "description": "Production-ready JWT authentication API with secure registration and protected routes",
+      "technologies": ["Node.js", "Express", "MongoDB", "bcrypt"],
+      "github": "https://github.com/OwaisZakir/auth-system-boilerplate"
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "proficiency": "Professional Working Proficiency"
+    },
+    {
+      "language": "Urdu",
+      "proficiency": "Native or Bilingual Proficiency"
+    },
+    {
+      "language": "Arabic",
+      "proficiency": "Limited Working Proficiency"
+    }
+  ]
+}
