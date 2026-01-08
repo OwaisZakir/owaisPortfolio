@@ -206,6 +206,20 @@ const CyberNavbar = () => {
                     {item.name}
                   </motion.a>
                 ))}
+
+                {/* Resume Download Button in Mobile Menu */}
+                <motion.button
+                  onClick={() => { downloadResume(); setIsMobileMenuOpen(false); }}
+                  variants={{
+                    open: { opacity: 1, x: 0 },
+                    closed: { opacity: 0, x: 20 },
+                  }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }}
+                  className="mx-6 mt-4 px-5 py-3 rounded-lg bg-primary text-primary-foreground font-display text-sm font-bold tracking-wider uppercase transition-all hover:shadow-[0_0_30px_hsl(187_100%_47%/0.4)] flex items-center justify-center gap-2"
+                >
+                  <Download size={18} />
+                  Download Resume
+                </motion.button>
               </motion.nav>
             </motion.div>
           </>
