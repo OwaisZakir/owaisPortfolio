@@ -504,6 +504,8 @@ const HeroSection = () => {
               <motion.a
                 key={label}
                 href={href}
+                target={href.startsWith('http') ? '_blank' : undefined}
+                rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                 whileHover={{
                   scale: 1.3,
                   y: -8,
