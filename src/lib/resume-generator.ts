@@ -322,15 +322,91 @@ export const generateResumeHTML = () => {
   `;
 };
 
-export const downloadResume = () => {
-  const htmlContent = generateResumeHTML();
-  const blob = new Blob([htmlContent], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'Owais_Zakir_Resume.html';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+export const downloadResume = async (format: 'html' | 'pdf' = 'pdf') => {
+  try {
+    if (format === 'html') {
+      const htmlContent = generateResumeHTML();
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Owais_Zakir_Resume.html';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } else if (format === 'pdf') {
+      // Dynamic import to avoid bundle bloat if not used
+      const html2canvas = (await import('html2canvas')).default;
+      const { jsPDF } = await import('jspdf');
+
+      // Create temporary container with resume HTML
+      const tempContainer = document.createElement('div');
+      tempContainer.innerHTML = generateResumeHTML();
+      tempContainer.style.position = 'absolute';
+      tempContainer.style.left = '-9999px';
+      tempContainer.style.width = '900px';
+      tempContainer.style.padding = '40px';
+      document.body.appendChild(tempContainer);
+
+      // Get content div
+      const contentDiv = tempContainer.querySelector('.container') as HTMLElement;
+      if (!contentDiv) {
+        document.body.removeChild(tempContainer);
+        throw new Error('Resume content not found');
+      }
+
+      // Convert HTML to canvas
+      const canvas = await html2canvas(contentDiv, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+      });
+
+      // Create PDF
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Add pages to PDF
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save('Owais_Zakir_Resume.pdf');
+
+      // Cleanup
+      document.body.removeChild(tempContainer);
+    }
+  } catch (error) {
+    console.error('Resume download failed:', error);
+    // Fallback to HTML
+    const htmlContent = generateResumeHTML();
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'Owais_Zakir_Resume.html';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
 };
