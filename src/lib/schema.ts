@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * Structured Data (JSON-LD) schemas for SEO optimization
  * Implements schema.org markup for better search engine understanding
