@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { useRef, Suspense } from 'react';
+import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Environment } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { Zap, Cpu, Code2 } from 'lucide-react';
 
@@ -17,11 +18,6 @@ const RotatingCube = () => {
         emissive="#00eeff"
         emissiveIntensity={0.5}
         wireframe={false}
-      />
-      <primitive
-        object={new (require('three').Mesh)()}
-        position={[0, 0, 0]}
-        rotation={[0.5, 0.5, 0]}
       />
     </mesh>
   );
