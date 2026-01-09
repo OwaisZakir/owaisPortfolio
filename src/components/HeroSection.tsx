@@ -450,7 +450,7 @@ const HeroSection = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 flex-wrap"
           >
             <motion.button
-              onClick={downloadResume}
+              onClick={() => downloadResume('pdf')}
               whileHover={{
                 scale: 1.05,
                 boxShadow: '0 0 40px hsl(152 100% 50% / 0.5)',
@@ -466,7 +466,7 @@ const HeroSection = () => {
               />
               <span className="relative z-10 flex items-center gap-2">
                 <Download size={20} />
-                Download Resume
+                Download Resume (PDF)
               </span>
             </motion.button>
 
