@@ -19,6 +19,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 const Index = () => {
   return (
     <ErrorBoundary>
+      <SchemaInjector />
       <SkipLink />
       <ThemeToggle />
       <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
