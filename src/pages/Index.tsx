@@ -4,10 +4,13 @@ import CyberNavbar from '@/components/CyberNavbar';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
 import SkipLink from '@/components/SkipLink';
 import ThemeToggle from '@/components/ThemeToggle';
+import SchemaInjector from '@/components/SchemaInjector';
+import Canvas3DBackground from '@/components/Canvas3DBackground';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import SkillsSection from '@/components/SkillsSection';
 import ProjectsSection from '@/components/ProjectsSection';
+import Interactive3DShowcase from '@/components/Interactive3DShowcase';
 import ExperienceSection from '@/components/ExperienceSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
@@ -16,9 +19,13 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 const Index = () => {
   return (
     <ErrorBoundary>
+      <SchemaInjector />
       <SkipLink />
       <ThemeToggle />
       <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+        {/* 3D Background Canvas */}
+        <Canvas3DBackground />
+
         {/* Mouse Follower Effect */}
         <MouseFollower />
 
@@ -44,6 +51,9 @@ const Index = () => {
           </ErrorBoundary>
           <ErrorBoundary>
             <ProjectsSection />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Interactive3DShowcase />
           </ErrorBoundary>
           <ErrorBoundary>
             <ExperienceSection />

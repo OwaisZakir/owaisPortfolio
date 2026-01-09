@@ -1,0 +1,24 @@
+# CODEOWNERS file
+# This file controls who gets requested as a reviewer for pull requests
+
+# Global owners
+* @OwaisZakir
+
+# Frontend components
+/src/components/ @OwaisZakir
+/src/pages/ @OwaisZakir
+
+# Styles and configuration
+/src/*.css @OwaisZakir
+/tailwind.config.ts @OwaisZakir
+
+# Build configuration
+/vite.config.ts @OwaisZakir
+/vercel.json @OwaisZakir
+
+# CI/CD
+/.github/ @OwaisZakir
+
+# Package management
+package.json @OwaisZakir
+package-lock.json @OwaisZakir
