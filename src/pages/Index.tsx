@@ -20,6 +20,9 @@ const Index = () => {
       <SkipLink />
       <ThemeToggle />
       <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+        {/* 3D Background Canvas */}
+        <Canvas3DBackground />
+
         {/* Mouse Follower Effect */}
         <MouseFollower />
 
