@@ -245,5 +245,3 @@ export const useInjectSchemas = () => {
     injectSchema(getCombinedSchema());
   }, []);
 };
-
-import React from 'react';
