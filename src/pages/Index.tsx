@@ -4,6 +4,7 @@ import CyberNavbar from '@/components/CyberNavbar';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
 import SkipLink from '@/components/SkipLink';
 import ThemeToggle from '@/components/ThemeToggle';
+import Canvas3DBackground from '@/components/Canvas3DBackground';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import SkillsSection from '@/components/SkillsSection';
