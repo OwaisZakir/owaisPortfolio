@@ -1,42 +1,245 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Smooth scrolling for immersive experience */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  overflow-x: hidden;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Hero section - First impression */
+#home {
+  min-height: 150vh;
+  background: linear-gradient(
+    180deg,
+    hsl(230 25% 10%) 0%,
+    hsl(230 30% 6%) 50%,
+    hsl(230 25% 8%) 100%
+  );
+}
+
+/* 3D card enhancement */
+.cyber-card {
+  border: 1px solid hsl(187 100% 47% / 0.2);
+  background: linear-gradient(
+    135deg,
+    hsl(230 25% 12% / 0.9),
+    hsl(230 25% 8% / 0.95)
+  );
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cyber-card:hover {
+  border-color: hsl(187 100% 47% / 0.6);
+  box-shadow: 0 0 40px hsl(187 100% 47% / 0.3), inset 0 0 40px hsl(187 100% 47% / 0.1);
+  background: linear-gradient(
+    135deg,
+    hsl(187 100% 47% / 0.05),
+    hsl(274 73% 58% / 0.03)
+  );
+}
+
+/* Cyber grid pattern */
+.cyber-grid {
+  background-image:
+    linear-gradient(0deg, hsl(187 100% 47% / 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(187 100% 47% / 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Glow effects for buttons */
+.cyber-btn {
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cyber-btn:hover {
+  transform: translateY(-2px);
+}
+
+.cyber-btn:active {
+  transform: translateY(0);
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    hsl(187 100% 47%),
+    hsl(274 73% 58%),
+    hsl(152 100% 50%),
+    hsl(187 100% 47%)
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 4s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% center;
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    background-position: 100% center;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* Smooth section transitions */
+section {
+  position: relative;
+  z-index: 5;
+}
+
+/* Parallax scroll support */
+@supports (perspective: 1000px) {
+  html {
+    perspective: 1200px;
   }
 }
 
-.card {
-  padding: 2em;
+/* Enhanced focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid hsl(187 100% 47%);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
 }
 
-.read-the-docs {
-  color: #888;
+/* Smooth transitions for all interactive elements */
+button, a {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-pulse {
+  background: linear-gradient(
+    90deg,
+    hsl(187 100% 47% / 0.1),
+    hsl(187 100% 47% / 0.2),
+    hsl(187 100% 47% / 0.1)
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Responsive typography for immersive feel */
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 60px;
+  }
+
+  #home {
+    min-height: 120vh;
+  }
+
+  .cyber-card {
+    padding: 1.5rem;
+  }
+}
+
+/* Prevent layout shift during scrolling */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Print styles */
+@media print {
+  .cyber-btn,
+  section nav,
+  #main-content > :not(section) {
+    display: none;
+  }
+}
+
+/* Dark mode (already applied but explicit for clarity) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 230 25% 10%;
+    --foreground: 0 0% 98%;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  .cyber-card {
+    border-width: 2px;
+  }
+
+  .cyber-btn {
+    font-weight: 700;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(230 25% 10%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(187 100% 47% / 0.5);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(187 100% 47%);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: hsl(187 100% 47% / 0.5) hsl(230 25% 10%);
+  scrollbar-width: thin;
+}
+
+/* Text selection color */
+::selection {
+  background-color: hsl(187 100% 47% / 0.3);
+  color: hsl(187 100% 47%);
+}
+
+/* 3D transform enhancements */
+.perspective {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
