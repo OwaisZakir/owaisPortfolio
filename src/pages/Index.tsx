@@ -46,20 +46,10 @@ const Index = () => {
 
         {/* Main Content with depth-based immersion */}
         <main id="main-content" className="relative z-10">
-          {/* Hero Section with 3D expertise cards */}
+          {/* Hero Section */}
           <ErrorBoundary>
             <HeroSection />
           </ErrorBoundary>
-
-          {/* Spacing and transition zone */}
-          <div className="relative h-32 md:h-64 pointer-events-none">
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.5 }}
-            />
-          </div>
 
           {/* About Section */}
           <ErrorBoundary>
