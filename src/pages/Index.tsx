@@ -22,7 +22,7 @@ const Index = () => {
       <SchemaInjector />
       <SkipLink />
       <ThemeToggle />
-      <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+      <div className="relative bg-background text-foreground overflow-x-hidden">
         {/* 3D Background Canvas */}
         <Canvas3DBackground />
 
@@ -38,26 +38,49 @@ const Index = () => {
         {/* Navigation */}
         <CyberNavbar />
 
-        {/* Main Content */}
+        {/* Main Content with depth-based immersion */}
         <main id="main-content" className="relative z-10">
+          {/* Hero Section with 3D expertise cards */}
           <ErrorBoundary>
             <HeroSection />
           </ErrorBoundary>
+
+          {/* Spacing and transition zone */}
+          <div className="relative h-32 md:h-64 pointer-events-none">
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.5 }}
+            />
+          </div>
+
+          {/* About Section */}
           <ErrorBoundary>
             <AboutSection />
           </ErrorBoundary>
+
+          {/* Skills Section */}
           <ErrorBoundary>
             <SkillsSection />
           </ErrorBoundary>
+
+          {/* Projects Section - Main showcase */}
           <ErrorBoundary>
             <ProjectsSection />
           </ErrorBoundary>
+
+          {/* Interactive 3D Showcase */}
           <ErrorBoundary>
             <Interactive3DShowcase />
           </ErrorBoundary>
+
+          {/* Experience Section */}
           <ErrorBoundary>
             <ExperienceSection />
           </ErrorBoundary>
+
+          {/* Contact Section */}
           <ErrorBoundary>
             <ContactSection />
           </ErrorBoundary>
