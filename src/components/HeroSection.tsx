@@ -4,6 +4,7 @@ import Typewriter from 'typewriter-effect';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useIsTouchDevice } from '@/hooks/use-is-touch-device';
 import { downloadResume } from '@/lib/resume-generator';
+import Home3DCards from './Home3DCards';
 import {
   ChevronDown,
   Github,
