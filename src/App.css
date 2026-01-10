@@ -1,4 +1,4 @@
-/* Smooth scrolling for immersive experience */
+/* Core layout and performance */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
@@ -8,18 +8,28 @@ body {
   overflow-x: hidden;
 }
 
-/* Hero section - First impression */
-#home {
-  min-height: 150vh;
-  background: linear-gradient(
-    180deg,
-    hsl(230 25% 10%) 0%,
-    hsl(230 30% 6%) 50%,
-    hsl(230 25% 8%) 100%
-  );
+* {
+  box-sizing: border-box;
 }
 
-/* 3D card enhancement */
+/* Prevent layout shift */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Main layout */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* 3D Card Enhancement */
 .cyber-card {
   border: 1px solid hsl(187 100% 47% / 0.2);
   background: linear-gradient(
@@ -28,45 +38,25 @@ body {
     hsl(230 25% 8% / 0.95)
   );
   backdrop-filter: blur(10px);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -webkit-backdrop-filter: blur(10px);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .cyber-card:hover {
   border-color: hsl(187 100% 47% / 0.6);
-  box-shadow: 0 0 40px hsl(187 100% 47% / 0.3), inset 0 0 40px hsl(187 100% 47% / 0.1);
-  background: linear-gradient(
-    135deg,
-    hsl(187 100% 47% / 0.05),
-    hsl(274 73% 58% / 0.03)
-  );
+  box-shadow: 0 0 30px hsl(187 100% 47% / 0.2);
 }
 
-/* Cyber grid pattern */
+/* Cyber Grid Pattern */
 .cyber-grid {
   background-image:
-    linear-gradient(0deg, hsl(187 100% 47% / 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(187 100% 47% / 0.1) 1px, transparent 1px);
+    linear-gradient(0deg, hsl(187 100% 47% / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(187 100% 47% / 0.08) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
-/* Glow effects for buttons */
-.cyber-btn {
-  position: relative;
-  overflow: hidden;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.cyber-btn:hover {
-  transform: translateY(-2px);
-}
-
-.cyber-btn:active {
-  transform: translateY(0);
-}
-
-/* Gradient text effect */
+/* Gradient Text */
 .gradient-text {
   background: linear-gradient(
     90deg,
@@ -91,29 +81,177 @@ body {
   }
 }
 
-/* Smooth section transitions */
-section {
+/* Button Styles */
+.cyber-btn {
   position: relative;
-  z-index: 5;
+  overflow: hidden;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
-/* Parallax scroll support */
-@supports (perspective: 1000px) {
-  html {
-    perspective: 1200px;
-  }
+.cyber-btn:active {
+  transform: translateY(1px);
 }
 
-/* Enhanced focus styles for accessibility */
+/* Text Selection */
+::selection {
+  background-color: hsl(187 100% 47% / 0.3);
+  color: hsl(187 100% 47%);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(230 25% 10%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(187 100% 47% / 0.5);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(187 100% 47%);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: hsl(187 100% 47% / 0.5) hsl(230 25% 10%);
+  scrollbar-width: thin;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Focus Visible for Accessibility */
 *:focus-visible {
   outline: 2px solid hsl(187 100% 47%);
   outline-offset: 2px;
   border-radius: 0.25rem;
 }
 
-/* Smooth transitions for all interactive elements */
-button, a {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* Image Loading State */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Smooth Transitions */
+button, a, [role="button"] {
+  transition: all 0.3s ease;
+}
+
+/* Section Spacing */
+section {
+  position: relative;
+  z-index: 5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 60px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  nav, footer, [role="button"], .cyber-btn {
+    display: none;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: more) {
+  .cyber-card {
+    border-width: 2px;
+  }
+
+  .cyber-btn {
+    font-weight: 700;
+  }
+}
+
+/* Dark Mode (explicit) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* Performance Optimizations */
+.will-animate {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
 /* Loading animation */
@@ -137,106 +275,10 @@ button, a {
   animation: shimmer 2s infinite;
 }
 
-/* Responsive typography for immersive feel */
-@media (max-width: 768px) {
-  html {
-    scroll-padding-top: 60px;
-  }
-
-  #home {
-    min-height: 120vh;
-  }
-
-  .cyber-card {
-    padding: 1.5rem;
-  }
-}
-
-/* Prevent layout shift during scrolling */
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* Print styles */
-@media print {
-  .cyber-btn,
-  section nav,
-  #main-content > :not(section) {
-    display: none;
-  }
-}
-
-/* Dark mode (already applied but explicit for clarity) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 230 25% 10%;
-    --foreground: 0 0% 98%;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: more) {
-  .cyber-card {
-    border-width: 2px;
-  }
-
-  .cyber-btn {
-    font-weight: 700;
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(230 25% 10%);
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(187 100% 47% / 0.5);
-  border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(187 100% 47%);
-}
-
-/* Firefox scrollbar */
-* {
-  scrollbar-color: hsl(187 100% 47% / 0.5) hsl(230 25% 10%);
-  scrollbar-width: thin;
-}
-
-/* Text selection color */
-::selection {
-  background-color: hsl(187 100% 47% / 0.3);
-  color: hsl(187 100% 47%);
-}
-
-/* 3D transform enhancements */
+/* 3D Support */
 .perspective {
   perspective: 1000px;
+  -webkit-perspective: 1000px;
 }
 
 .preserve-3d {
