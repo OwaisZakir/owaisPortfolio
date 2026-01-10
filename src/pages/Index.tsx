@@ -7,6 +7,7 @@ import SkipLink from '@/components/SkipLink';
 import ThemeToggle from '@/components/ThemeToggle';
 import SchemaInjector from '@/components/SchemaInjector';
 import Canvas3DBackground from '@/components/Canvas3DBackground';
+import DepthLayers from '@/components/DepthLayers';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import SkillsSection from '@/components/SkillsSection';
