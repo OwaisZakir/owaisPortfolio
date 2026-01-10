@@ -76,6 +76,11 @@ const Index = () => {
             <ProjectsSection />
           </ErrorBoundary>
 
+          {/* Project Gallery - Interactive showcase */}
+          <ErrorBoundary>
+            <ProjectGallery />
+          </ErrorBoundary>
+
           {/* Interactive 3D Showcase */}
           <ErrorBoundary>
             <Interactive3DShowcase />
