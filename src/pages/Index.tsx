@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import ParticleField from '@/components/ParticleField';
 import MouseFollower from '@/components/MouseFollower';
 import CyberNavbar from '@/components/CyberNavbar';
