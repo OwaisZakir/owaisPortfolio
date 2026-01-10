@@ -599,6 +599,18 @@ const HeroSection = () => {
           whileHover={prefersReducedMotion ? {} : { borderColor: 'hsl(187 100% 47%)', scale: 1.1 }}
         />
       ))}
+
+      {/* 3D Expertise Cards Section */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 transform translate-y-1/2"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.2 }}
+      >
+        <div className="px-4 md:px-8 py-12 md:py-16 relative z-20">
+          <Home3DCards />
+        </div>
+      </motion.div>
     </section>
   );
 };
