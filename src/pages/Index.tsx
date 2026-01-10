@@ -22,7 +22,7 @@ const Index = () => {
       <SchemaInjector />
       <SkipLink />
       <ThemeToggle />
-      <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+      <div className="relative bg-background text-foreground overflow-x-hidden">
         {/* 3D Background Canvas */}
         <Canvas3DBackground />
 
@@ -38,26 +38,39 @@ const Index = () => {
         {/* Navigation */}
         <CyberNavbar />
 
-        {/* Main Content */}
+        {/* Main Content with depth-based immersion */}
         <main id="main-content" className="relative z-10">
+          {/* Hero Section */}
           <ErrorBoundary>
             <HeroSection />
           </ErrorBoundary>
+
+          {/* About Section */}
           <ErrorBoundary>
             <AboutSection />
           </ErrorBoundary>
+
+          {/* Skills Section */}
           <ErrorBoundary>
             <SkillsSection />
           </ErrorBoundary>
+
+          {/* Projects Section - Main showcase */}
           <ErrorBoundary>
             <ProjectsSection />
           </ErrorBoundary>
+
+          {/* Interactive 3D Showcase */}
           <ErrorBoundary>
             <Interactive3DShowcase />
           </ErrorBoundary>
+
+          {/* Experience Section */}
           <ErrorBoundary>
             <ExperienceSection />
           </ErrorBoundary>
+
+          {/* Contact Section */}
           <ErrorBoundary>
             <ContactSection />
           </ErrorBoundary>

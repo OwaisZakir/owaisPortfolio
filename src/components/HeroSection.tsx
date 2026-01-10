@@ -31,12 +31,6 @@ const floatingIcons = [
   { Icon: Database, x: 92, y: 70, color: 'hsl(187, 100%, 47%)', size: 38, delay: 1.5 },
   { Icon: Server, x: 5, y: 45, color: 'hsl(152, 100%, 50%)', size: 32, delay: 2 },
   { Icon: Lock, x: 95, y: 45, color: 'hsl(274, 73%, 58%)', size: 34, delay: 2.5 },
-  { Icon: Cpu, x: 20, y: 88, color: 'hsl(187, 100%, 47%)', size: 30, delay: 3 },
-  { Icon: Globe, x: 80, y: 85, color: 'hsl(152, 100%, 50%)', size: 36, delay: 3.5 },
-  { Icon: Terminal, x: 30, y: 10, color: 'hsl(274, 73%, 58%)', size: 28, delay: 4 },
-  { Icon: Zap, x: 70, y: 8, color: 'hsl(152, 100%, 50%)', size: 32, delay: 4.5 },
-  { Icon: Binary, x: 50, y: 5, color: 'hsl(187, 100%, 47%)', size: 26, delay: 5 },
-  { Icon: Network, x: 50, y: 92, color: 'hsl(274, 73%, 58%)', size: 34, delay: 5.5 },
 ];
 
 interface Floating3DIconProps {
@@ -73,7 +67,6 @@ const Floating3DIcon = ({
   const rotateX = useSpring(localMouseY, { stiffness: 150, damping: 20 });
   const rotateY = useSpring(localMouseX, { stiffness: 150, damping: 20 });
 
-  // Scroll-based rotation
   const scrollRotate = useTransform(scrollY, [0, 1000], [0, 360]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -140,7 +133,6 @@ const Floating3DIcon = ({
               }
         }
       >
-        {/* Glow */}
         <motion.div
           className="absolute inset-0 rounded-xl blur-xl"
           style={{
@@ -150,7 +142,6 @@ const Floating3DIcon = ({
           animate={{ scale: isHovered ? 1.5 : 1 }}
         />
 
-        {/* Icon container */}
         <motion.div
           className="relative p-3 rounded-xl border backdrop-blur-sm"
           style={{
@@ -167,7 +158,6 @@ const Floating3DIcon = ({
           <Icon size={size} style={{ color }} strokeWidth={1.5} />
         </motion.div>
 
-        {/* Particles on hover */}
         {isHovered && (
           <>
             {[...Array(5)].map((_, i) => (
@@ -208,11 +198,10 @@ const HeroSection = () => {
   const prefersReducedMotion = useReducedMotion();
   const isTouchDevice = useIsTouchDevice();
 
-  // Parallax transforms
   const y1 = useTransform(scrollY, [0, 500], prefersReducedMotion ? [0, 0] : [0, 150]);
   const y2 = useTransform(scrollY, [0, 500], prefersReducedMotion ? [0, 0] : [0, -100]);
-  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const scale = useTransform(scrollY, [0, 400], [1, 0.8]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const scale = useTransform(scrollY, [0, 300], [1, 0.9]);
 
   useEffect(() => {
     if (prefersReducedMotion) return;
@@ -232,15 +221,13 @@ const HeroSection = () => {
     <section
       ref={containerRef}
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-0"
     >
-      {/* Animated Background Grid */}
       <motion.div
         className="absolute inset-0 cyber-grid opacity-30"
         style={{ y: y1 }}
       />
 
-      {/* Multiple gradient orbs */}
       <motion.div
         className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl"
         style={{
@@ -258,6 +245,7 @@ const HeroSection = () => {
         }
         transition={prefersReducedMotion ? { duration: 0 } : { duration: 8, repeat: Infinity }}
       />
+
       <motion.div
         className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl"
         style={{
@@ -275,6 +263,7 @@ const HeroSection = () => {
         }
         transition={prefersReducedMotion ? { duration: 0 } : { duration: 10, repeat: Infinity }}
       />
+
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl"
         animate={
@@ -287,11 +276,9 @@ const HeroSection = () => {
         transition={prefersReducedMotion ? { duration: 0 } : { duration: 60, repeat: Infinity, ease: 'linear' }}
       />
 
-      {/* Floating 3D Icons - Reduced on mobile/touch */}
       {floatingIcons
         .filter((_, index) => {
-          // On touch devices, show only first 6 icons
-          if (isTouchDevice) return index < 6;
+          if (isTouchDevice) return index < 4;
           return true;
         })
         .map((icon, index) => (
@@ -305,7 +292,6 @@ const HeroSection = () => {
           />
         ))}
 
-      {/* Rotating geometric shapes */}
       <motion.div
         className="absolute w-96 h-96 border border-primary/10 rounded-full hidden lg:block"
         style={{ right: '5%', top: '10%', y: y2 }}
@@ -325,7 +311,6 @@ const HeroSection = () => {
         transition={prefersReducedMotion ? { duration: 0 } : { duration: 20, repeat: Infinity, ease: 'linear' }}
       />
 
-      {/* Hexagon pattern */}
       <motion.svg
         className="absolute left-[10%] top-[30%] w-32 h-32 text-primary/20 hidden lg:block"
         viewBox="0 0 100 100"
@@ -341,7 +326,7 @@ const HeroSection = () => {
         />
       </motion.svg>
 
-      {/* Main Content */}
+      {/* Main Content - Centered */}
       <motion.div
         className="relative z-10 text-center px-4 max-w-5xl mx-auto"
         style={{ opacity, scale }}
@@ -352,7 +337,6 @@ const HeroSection = () => {
             y: mousePosition.y * 0.3,
           }}
         >
-          {/* Status Badge */}
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -377,12 +361,11 @@ const HeroSection = () => {
             </span>
           </motion.div>
 
-          {/* Name with glitch effect */}
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, type: 'spring' }}
-            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight relative"
+            className="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight relative"
           >
             <motion.span
               className="text-foreground inline-block"
@@ -407,12 +390,11 @@ const HeroSection = () => {
             </motion.span>
           </motion.h1>
 
-          {/* Typewriter Effect */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="font-mono text-lg md:text-2xl text-primary mb-8 h-10"
+            className="font-mono text-lg md:text-xl text-primary mb-8 h-10"
           >
             <Typewriter
               options={{
@@ -420,8 +402,7 @@ const HeroSection = () => {
                   'MERN Stack Developer',
                   'React • Node.js • MongoDB • Express',
                   'Full-Stack Engineer',
-                  'API Integration & Scalable Architecture',
-                  'Building Digital Transformation Solutions',
+                  'Building scalable solutions',
                 ],
                 autoStart: true,
                 loop: true,
@@ -431,18 +412,15 @@ const HeroSection = () => {
             />
           </motion.div>
 
-          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body leading-relaxed"
+            className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mb-12 font-body leading-relaxed"
           >
-            I'm a{' '}
-            <span className="text-primary font-semibold">Full-Stack Engineer (MERN Stack)</span> passionate about helping businesses and startups transform how they operate through <span className="text-secondary font-semibold">ERP, POS, and automation solutions</span>. Based in <span className="text-accent font-semibold">Karachi, Pakistan</span>, I design and build systems that scale. My focus is on creating <span className="text-primary font-semibold">fast, stable, production-ready software</span> built around real-world business needs.
+            Full-Stack Engineer passionate about building scalable applications with modern technologies.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -456,17 +434,11 @@ const HeroSection = () => {
                 boxShadow: '0 0 40px hsl(152 100% 50% / 0.5)',
               }}
               whileTap={{ scale: 0.95 }}
-              className="cyber-btn px-10 py-5 bg-accent text-accent-foreground font-display text-lg relative overflow-hidden group font-bold tracking-wider"
+              className="cyber-btn px-10 py-4 bg-accent text-accent-foreground font-display text-base relative overflow-hidden group font-bold tracking-wider rounded-lg"
             >
-              <motion.span
-                className="absolute inset-0 bg-gradient-to-r from-accent via-primary to-accent"
-                animate={{ x: ['-100%', '100%'] }}
-                transition={{ duration: 3, repeat: Infinity }}
-                style={{ opacity: 0.3 }}
-              />
               <span className="relative z-10 flex items-center gap-2">
-                <Download size={20} />
-                Download Resume (PDF)
+                <Download size={18} />
+                Download Resume
               </span>
             </motion.button>
 
@@ -481,17 +453,11 @@ const HeroSection = () => {
                 boxShadow: '0 0 40px hsl(187 100% 47% / 0.5)',
               }}
               whileTap={{ scale: 0.95 }}
-              className="cyber-btn px-10 py-5 bg-primary text-primary-foreground font-display text-lg relative overflow-hidden group"
+              className="cyber-btn px-10 py-4 bg-primary text-primary-foreground font-display text-base relative overflow-hidden group rounded-lg"
             >
-              <motion.span
-                className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-primary"
-                animate={{ x: ['-100%', '100%'] }}
-                transition={{ duration: 3, repeat: Infinity }}
-                style={{ opacity: 0.3 }}
-              />
               <span className="relative z-10 flex items-center gap-2">
-                <Code2 size={20} />
-                View My Work
+                <Code2 size={18} />
+                View Projects
               </span>
             </motion.a>
 
@@ -503,16 +469,15 @@ const HeroSection = () => {
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="cyber-btn px-10 py-5 border-2 border-primary/50 text-primary hover:bg-primary/10 font-display text-lg transition-all"
+              className="cyber-btn px-10 py-4 border-2 border-primary/50 text-primary hover:bg-primary/10 font-display text-base transition-all rounded-lg"
             >
               <span className="flex items-center gap-2">
-                <Mail size={20} />
+                <Mail size={18} />
                 Get In Touch
               </span>
             </motion.a>
           </motion.div>
 
-          {/* Social Links */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -532,10 +497,9 @@ const HeroSection = () => {
                 whileHover={{
                   scale: 1.3,
                   y: -8,
-                  rotate: [0, -10, 10, 0],
                 }}
                 whileTap={{ scale: 0.9 }}
-                className="relative p-4 text-muted-foreground hover:text-foreground transition-colors group"
+                className="relative p-3 text-muted-foreground hover:text-foreground transition-colors group"
                 aria-label={label}
               >
                 <motion.div
@@ -544,7 +508,7 @@ const HeroSection = () => {
                     background: `radial-gradient(circle, ${color}20, transparent 70%)`,
                   }}
                 />
-                <Icon size={26} className="relative z-10" />
+                <Icon size={24} className="relative z-10" />
               </motion.a>
             ))}
           </motion.div>
@@ -578,7 +542,7 @@ const HeroSection = () => {
         </motion.a>
       </motion.div>
 
-      {/* Corner Decorations with animations */}
+      {/* Corner Decorations */}
       {[
         { pos: 'top-20 left-4', border: 'border-l-2 border-t-2' },
         { pos: 'top-20 right-4', border: 'border-r-2 border-t-2' },
