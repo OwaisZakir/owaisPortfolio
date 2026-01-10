@@ -28,9 +28,6 @@ const Index = () => {
         {/* 3D Background Canvas */}
         <Canvas3DBackground />
 
-        {/* Depth Layers for immersive effect */}
-        <DepthLayers />
-
         {/* Mouse Follower Effect */}
         <MouseFollower />
 
