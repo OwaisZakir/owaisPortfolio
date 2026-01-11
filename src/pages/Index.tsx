@@ -6,7 +6,8 @@ import SkipLink from '@/components/SkipLink';
 import ThemeToggle from '@/components/ThemeToggle';
 import SchemaInjector from '@/components/SchemaInjector';
 import Canvas3DBackground from '@/components/Canvas3DBackground';
-import HeroSection from '@/components/HeroSection';
+import Hero3DAdvanced from '@/components/Hero3DAdvanced';
+import SEOHead from '@/components/SEOHead';
 import AboutSection from '@/components/AboutSection';
 import SkillsSection from '@/components/SkillsSection';
 import ProjectsSection from '@/components/ProjectsSection';
@@ -19,6 +20,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 const Index = () => {
   return (
     <ErrorBoundary>
+      <SEOHead />
       <SchemaInjector />
       <SkipLink />
       <ThemeToggle />
@@ -42,7 +44,7 @@ const Index = () => {
         <main id="main-content" className="relative z-10">
           {/* Hero Section */}
           <ErrorBoundary>
-            <HeroSection />
+            <Hero3DAdvanced />
           </ErrorBoundary>
 
           {/* About Section */}
