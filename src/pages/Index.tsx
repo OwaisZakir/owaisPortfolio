@@ -9,7 +9,7 @@ import Canvas3DBackground from '@/components/Canvas3DBackground';
 import Hero3DAdvanced from '@/components/Hero3DAdvanced';
 import SEOHead from '@/components/SEOHead';
 import AboutSection from '@/components/AboutSection';
-import SkillsSection from '@/components/SkillsSection';
+import Skills3DSection from '@/components/Skills3DSection';
 import Projects3D from '@/components/Projects3D';
 import Interactive3DShowcase from '@/components/Interactive3DShowcase';
 import ExperienceSection from '@/components/ExperienceSection';
@@ -54,7 +54,7 @@ const Index = () => {
 
           {/* Skills Section */}
           <ErrorBoundary>
-            <SkillsSection />
+            <Skills3DSection />
           </ErrorBoundary>
 
           {/* Projects Section - Main showcase */}
