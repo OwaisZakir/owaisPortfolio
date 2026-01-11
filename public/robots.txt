@@ -1,52 +1,24 @@
-# robots.txt for Owais Zakir's Portfolio
-# Helps search engines understand which pages to crawl
-
-# Allow all bots to crawl all pages
+# Allow all crawlers
 User-agent: *
 Allow: /
-Disallow: 
+Disallow: /admin/
+Disallow: /.git/
+Disallow: /.env
+Disallow: /node_modules/
+Disallow: /build/
+Disallow: /dist/
 
-# Allow specific high-value pages
-Allow: /
-Allow: /#about
-Allow: /#projects
-Allow: /#skills
-Allow: /#3d-showcase
-Allow: /#contact
-
-# Crawl-delay (optional - time between requests in seconds)
-Crawl-delay: 1
-
-# Request rate (requests per day)
-Request-rate: 100/1d
-
-# Sitemap location
-Sitemap: https://owais-portfolio.vercel.app/sitemap.xml
-
-# Allow Google Bot with no restrictions
+# Specific crawlers
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 0
 
-# Allow Bing Bot
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
 
-# Specific rules for other bots (optional)
-User-agent: CCBot
-Disallow: /
+# Sitemap
+Sitemap: https://owaiszakir.dev/sitemap.xml
 
-User-agent: SemrushBot
-Allow: /
-Crawl-delay: 5
-
-User-agent: DotBot
-Disallow: /
-
-# Additional crawlers
-User-agent: AhrefsBot
-Allow: /
-
-User-agent: MJ12bot
-Allow: /
+# Meta tags
+Request-rate: 30/60 (requests per 60 seconds)
