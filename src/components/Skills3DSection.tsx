@@ -63,12 +63,12 @@ const skillCategories = [
     color: 'accent',
     glowColor: 'hsl(152, 100%, 50%)',
     skills: [
-      { name: 'Three.js', level: 90, icon: Cube },
+      { name: 'Three.js', level: 90, icon: Boxes },
       { name: 'WebGL', level: 85, icon: Eye },
       { name: 'React Three Fiber', level: 88, icon: Workflow },
       { name: 'Canvas API', level: 87, icon: Monitor },
       { name: 'GLSL Shaders', level: 80, icon: Code2 },
-      { name: '3D Modeling', level: 75, icon: Boxes },
+      { name: '3D Modeling', level: 75, icon: Layers },
     ],
   },
   {
@@ -101,9 +101,6 @@ const skillCategories = [
   },
 ];
 
-const Cube = (props: any) => (
-  <Boxes {...props} />
-);
 
 interface SkillItemProps {
   skill: {
