@@ -13,7 +13,7 @@ import Skills3DSection from '@/components/Skills3DSection';
 import Projects3D from '@/components/Projects3D';
 import Interactive3DShowcase from '@/components/Interactive3DShowcase';
 import ExperienceSection from '@/components/ExperienceSection';
-import ContactSection from '@/components/ContactSection';
+import Contact3D from '@/components/Contact3D';
 import Footer from '@/components/Footer';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
@@ -74,7 +74,7 @@ const Index = () => {
 
           {/* Contact Section */}
           <ErrorBoundary>
-            <ContactSection />
+            <Contact3D />
           </ErrorBoundary>
         </main>
 
