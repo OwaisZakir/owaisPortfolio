@@ -1,24 +1,26 @@
 import ParticleField from '@/components/ParticleField';
 import MouseFollower from '@/components/MouseFollower';
-import CyberNavbar from '@/components/CyberNavbar';
+import CyberNavbar3D from '@/components/CyberNavbar3D';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
 import SkipLink from '@/components/SkipLink';
 import ThemeToggle from '@/components/ThemeToggle';
 import SchemaInjector from '@/components/SchemaInjector';
 import Canvas3DBackground from '@/components/Canvas3DBackground';
-import HeroSection from '@/components/HeroSection';
+import Hero3DAdvanced from '@/components/Hero3DAdvanced';
+import SEOHead from '@/components/SEOHead';
 import AboutSection from '@/components/AboutSection';
-import SkillsSection from '@/components/SkillsSection';
-import ProjectsSection from '@/components/ProjectsSection';
+import Skills3DSection from '@/components/Skills3DSection';
+import Projects3D from '@/components/Projects3D';
 import Interactive3DShowcase from '@/components/Interactive3DShowcase';
 import ExperienceSection from '@/components/ExperienceSection';
-import ContactSection from '@/components/ContactSection';
+import Contact3D from '@/components/Contact3D';
 import Footer from '@/components/Footer';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
 const Index = () => {
   return (
     <ErrorBoundary>
+      <SEOHead />
       <SchemaInjector />
       <SkipLink />
       <ThemeToggle />
@@ -36,13 +38,13 @@ const Index = () => {
         <ScrollProgressBar />
 
         {/* Navigation */}
-        <CyberNavbar />
+        <CyberNavbar3D />
 
         {/* Main Content with depth-based immersion */}
         <main id="main-content" className="relative z-10">
           {/* Hero Section */}
           <ErrorBoundary>
-            <HeroSection />
+            <Hero3DAdvanced />
           </ErrorBoundary>
 
           {/* About Section */}
@@ -52,12 +54,12 @@ const Index = () => {
 
           {/* Skills Section */}
           <ErrorBoundary>
-            <SkillsSection />
+            <Skills3DSection />
           </ErrorBoundary>
 
           {/* Projects Section - Main showcase */}
           <ErrorBoundary>
-            <ProjectsSection />
+            <Projects3D />
           </ErrorBoundary>
 
           {/* Interactive 3D Showcase */}
@@ -72,7 +74,7 @@ const Index = () => {
 
           {/* Contact Section */}
           <ErrorBoundary>
-            <ContactSection />
+            <Contact3D />
           </ErrorBoundary>
         </main>
 
