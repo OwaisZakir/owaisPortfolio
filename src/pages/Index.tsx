@@ -10,7 +10,7 @@ import Hero3DAdvanced from '@/components/Hero3DAdvanced';
 import SEOHead from '@/components/SEOHead';
 import AboutSection from '@/components/AboutSection';
 import SkillsSection from '@/components/SkillsSection';
-import ProjectsSection from '@/components/ProjectsSection';
+import Projects3D from '@/components/Projects3D';
 import Interactive3DShowcase from '@/components/Interactive3DShowcase';
 import ExperienceSection from '@/components/ExperienceSection';
 import ContactSection from '@/components/ContactSection';
@@ -59,7 +59,7 @@ const Index = () => {
 
           {/* Projects Section - Main showcase */}
           <ErrorBoundary>
-            <ProjectsSection />
+            <Projects3D />
           </ErrorBoundary>
 
           {/* Interactive 3D Showcase */}
