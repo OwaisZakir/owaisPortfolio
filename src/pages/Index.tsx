@@ -1,6 +1,6 @@
 import ParticleField from '@/components/ParticleField';
 import MouseFollower from '@/components/MouseFollower';
-import CyberNavbar from '@/components/CyberNavbar';
+import CyberNavbar3D from '@/components/CyberNavbar3D';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
 import SkipLink from '@/components/SkipLink';
 import ThemeToggle from '@/components/ThemeToggle';
@@ -36,7 +36,7 @@ const Index = () => {
         <ScrollProgressBar />
 
         {/* Navigation */}
-        <CyberNavbar />
+        <CyberNavbar3D />
 
         {/* Main Content with depth-based immersion */}
         <main id="main-content" className="relative z-10">
