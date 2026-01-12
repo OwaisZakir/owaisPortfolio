@@ -45,22 +45,20 @@ const Index = () => {
           <Canvas3DBackground />
         </Suspense>
 
-        {/* Mouse Follower Effect */}
-        <Suspense fallback={null}>
-          <MouseFollower />
-        </Suspense>
-
-        {/* Background Particle System */}
+        {/* Decorative Elements */}
         <Suspense fallback={null}>
           <ParticleField />
         </Suspense>
 
-        {/* Scroll Progress Bar */}
+        <Suspense fallback={null}>
+          <MouseFollower />
+        </Suspense>
+
+        {/* UI Elements */}
         <Suspense fallback={null}>
           <ScrollProgressBar />
         </Suspense>
 
-        {/* Navigation */}
         <Suspense fallback={null}>
           <CyberNavbar3D />
         </Suspense>
