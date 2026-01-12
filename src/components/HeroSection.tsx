@@ -42,7 +42,7 @@ interface Floating3DIconProps {
   delay: number;
   mouseX: number;
   mouseY: number;
-  scrollY: any;
+  scrollY: import('framer-motion').MotionValue<number>;
   prefersReducedMotion?: boolean;
 }
 
