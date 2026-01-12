@@ -35,14 +35,18 @@ const ParticleField = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Initialize particles
-    const particleCount = Math.min(80, Math.floor(window.innerWidth / 20));
+    // Initialize particles - mobile optimized
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile
+      ? Math.min(30, Math.floor(window.innerWidth / 30))
+      : Math.min(60, Math.floor(window.innerWidth / 20));
+
     particlesRef.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      size: Math.random() * 2 + 1,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      size: Math.random() * 1.5 + 0.8,
       opacity: Math.random() * 0.5 + 0.2,
       color: colors[Math.floor(Math.random() * colors.length)],
     }));
@@ -92,23 +96,27 @@ const ParticleField = () => {
         ctx.globalAlpha = particle.opacity;
         ctx.fill();
 
-        // Draw connections - skip if reduced motion
-        if (!prefersReducedMotion) {
-          particlesRef.current.slice(i + 1).forEach((other) => {
+        // Draw connections - skip if reduced motion or mobile
+        if (!prefersReducedMotion && !isMobile) {
+          const connectionDistance = 100;
+          for (let j = i + 1; j < Math.min(i + 5, particlesRef.current.length); j++) {
+            const other = particlesRef.current[j];
             const dx = particle.x - other.x;
             const dy = particle.y - other.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            const distanceSq = dx * dx + dy * dy;
+            const maxDistSq = connectionDistance * connectionDistance;
 
-            if (distance < 120) {
+            if (distanceSq < maxDistSq) {
+              const distance = Math.sqrt(distanceSq);
               ctx.beginPath();
               ctx.moveTo(particle.x, particle.y);
               ctx.lineTo(other.x, other.y);
               ctx.strokeStyle = particle.color;
-              ctx.globalAlpha = (1 - distance / 120) * 0.2;
+              ctx.globalAlpha = (1 - distance / connectionDistance) * 0.2;
               ctx.lineWidth = 0.5;
               ctx.stroke();
             }
-          });
+          }
         }
       });
 
