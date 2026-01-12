@@ -2,17 +2,19 @@ import { lazy, Suspense } from 'react';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import SkeletonLoader from '@/components/SkeletonLoader';
 
-// Lazy loaded components for better performance
+// Import critical components immediately (no lazy load)
+import SEOHead from '@/components/SEOHead';
+import SchemaInjector from '@/components/SchemaInjector';
+import SkipLink from '@/components/SkipLink';
+import ThemeToggle from '@/components/ThemeToggle';
+
+// Lazy load non-critical components
+const Canvas3DBackground = lazy(() => import('@/components/Canvas3DBackground'));
 const ParticleField = lazy(() => import('@/components/ParticleField'));
 const MouseFollower = lazy(() => import('@/components/MouseFollower'));
 const CyberNavbar3D = lazy(() => import('@/components/CyberNavbar3D'));
 const ScrollProgressBar = lazy(() => import('@/components/ScrollProgressBar'));
-const SkipLink = lazy(() => import('@/components/SkipLink'));
-const ThemeToggle = lazy(() => import('@/components/ThemeToggle'));
-const SchemaInjector = lazy(() => import('@/components/SchemaInjector'));
-const Canvas3DBackground = lazy(() => import('@/components/Canvas3DBackground'));
 const Hero3DAdvanced = lazy(() => import('@/components/Hero3DAdvanced'));
-const SEOHead = lazy(() => import('@/components/SEOHead'));
 const AboutSection = lazy(() => import('@/components/AboutSection'));
 const Skills3DSection = lazy(() => import('@/components/Skills3DSection'));
 const Projects3D = lazy(() => import('@/components/Projects3D'));
@@ -31,21 +33,11 @@ const SectionSkeleton = () => (
 const Index = () => {
   return (
     <ErrorBoundary>
-      <Suspense fallback={null}>
-        <SEOHead />
-      </Suspense>
-
-      <Suspense fallback={null}>
-        <SchemaInjector />
-      </Suspense>
-
-      <Suspense fallback={null}>
-        <SkipLink />
-      </Suspense>
-
-      <Suspense fallback={null}>
-        <ThemeToggle />
-      </Suspense>
+      {/* Critical components - always load immediately */}
+      <SEOHead />
+      <SchemaInjector />
+      <SkipLink />
+      <ThemeToggle />
 
       <div className="relative bg-background text-foreground overflow-x-hidden">
         {/* 3D Background Canvas */}
