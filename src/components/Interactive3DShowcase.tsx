@@ -1,21 +1,27 @@
 import { motion } from 'framer-motion';
-import { useRef, Suspense, lazy, useState, useEffect } from 'react';
+import { useRef, Suspense, useState } from 'react';
 import * as THREE from 'three';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
-import { Zap, Cpu, Code2, Globe, Rocket, Star } from 'lucide-react';
+import { Zap, Code2, Globe, Rocket, Star } from 'lucide-react';
 
 // 3D Scene Components - Space Themed
 
 // Sun - Central star
 const Sun = () => {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame(() => {
+    if (groupRef.current) {
+      groupRef.current.rotation.z += 0.0002;
+    }
+  });
 
   return (
-    <group>
+    <group ref={groupRef}>
       {/* Main sun */}
-      <mesh ref={meshRef} position={[0, 0, 0]}>
+      <mesh position={[0, 0, 0]}>
         <sphereGeometry args={[1.5, 32, 32]} />
         <meshBasicMaterial
           color="#FFD700"
@@ -42,17 +48,11 @@ const Sun = () => {
 const Earth = () => {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useEffect(() => {
+  useFrame(() => {
     if (meshRef.current) {
-      const animate = () => {
-        if (meshRef.current) {
-          meshRef.current.rotation.y += 0.001;
-        }
-        requestAnimationFrame(animate);
-      };
-      animate();
+      meshRef.current.rotation.y += 0.001;
     }
-  }, []);
+  });
 
   return (
     <mesh ref={meshRef} position={[4, 1, 0]}>
@@ -72,17 +72,11 @@ const Earth = () => {
 const Mars = () => {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useEffect(() => {
+  useFrame(() => {
     if (meshRef.current) {
-      const animate = () => {
-        if (meshRef.current) {
-          meshRef.current.rotation.y += 0.0008;
-        }
-        requestAnimationFrame(animate);
-      };
-      animate();
+      meshRef.current.rotation.y += 0.0008;
     }
-  }, []);
+  });
 
   return (
     <mesh ref={meshRef} position={[-4, -1, 0]}>
@@ -102,17 +96,11 @@ const Mars = () => {
 const Jupiter = () => {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useEffect(() => {
+  useFrame(() => {
     if (meshRef.current) {
-      const animate = () => {
-        if (meshRef.current) {
-          meshRef.current.rotation.y += 0.0005;
-        }
-        requestAnimationFrame(animate);
-      };
-      animate();
+      meshRef.current.rotation.y += 0.0005;
     }
-  }, []);
+  });
 
   return (
     <mesh ref={meshRef} position={[0, -3.5, 0]}>
@@ -132,17 +120,11 @@ const Jupiter = () => {
 const AsteroidBelt = () => {
   const particlesRef = useRef<THREE.Points>(null);
 
-  useEffect(() => {
+  useFrame(() => {
     if (particlesRef.current) {
-      const animate = () => {
-        if (particlesRef.current) {
-          particlesRef.current.rotation.z += 0.0001;
-        }
-        requestAnimationFrame(animate);
-      };
-      animate();
+      particlesRef.current.rotation.z += 0.0001;
     }
-  }, []);
+  });
 
   const asteroidCount = 200;
   const positions = new Float32Array(asteroidCount * 3);
@@ -178,8 +160,6 @@ const AsteroidBelt = () => {
 
 // Cosmic dust and stars
 const CosmicDust = () => {
-  const particlesRef = useRef<THREE.Points>(null);
-
   const starCount = 500;
   const positions = new Float32Array(starCount * 3);
 
@@ -190,7 +170,7 @@ const CosmicDust = () => {
   }
 
   return (
-    <points ref={particlesRef}>
+    <points>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -212,6 +192,18 @@ const CosmicDust = () => {
 
 // Orbital rings visualization
 const OrbitalRings = () => {
+  const earthOrbitPoints: [number, number, number][] = [];
+  const marsOrbitPoints: [number, number, number][] = [];
+  const jupiterOrbitPoints: [number, number, number][] = [];
+
+  // Pre-calculate orbit points
+  for (let i = 0; i < 64; i++) {
+    const angle = (i / 64) * Math.PI * 2;
+    earthOrbitPoints.push([Math.cos(angle) * 4, 1 * Math.sin(angle * 0.1), Math.sin(angle) * 4]);
+    marsOrbitPoints.push([Math.cos(angle) * 4, -1 * Math.sin(angle * 0.1), Math.sin(angle) * 4]);
+    jupiterOrbitPoints.push([Math.cos(angle) * 3.5, Math.sin(angle) * 3.5, Math.cos(angle) * 0.5]);
+  }
+
   return (
     <group>
       {/* Earth orbit */}
@@ -219,13 +211,8 @@ const OrbitalRings = () => {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={64}
-            array={new Float32Array(
-              Array.from({ length: 64 }, (_, i) => {
-                const angle = (i / 64) * Math.PI * 2;
-                return [Math.cos(angle) * 4, 1 * Math.sin(angle * 0.1), Math.sin(angle) * 4];
-              }).flat()
-            )}
+            count={earthOrbitPoints.length}
+            array={new Float32Array(earthOrbitPoints.flat())}
             itemSize={3}
           />
         </bufferGeometry>
@@ -237,13 +224,8 @@ const OrbitalRings = () => {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={64}
-            array={new Float32Array(
-              Array.from({ length: 64 }, (_, i) => {
-                const angle = (i / 64) * Math.PI * 2;
-                return [Math.cos(angle) * 4, -1 * Math.sin(angle * 0.1), Math.sin(angle) * 4];
-              }).flat()
-            )}
+            count={marsOrbitPoints.length}
+            array={new Float32Array(marsOrbitPoints.flat())}
             itemSize={3}
           />
         </bufferGeometry>
@@ -255,13 +237,8 @@ const OrbitalRings = () => {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={64}
-            array={new Float32Array(
-              Array.from({ length: 64 }, (_, i) => {
-                const angle = (i / 64) * Math.PI * 2;
-                return [Math.cos(angle) * 3.5, Math.sin(angle) * 3.5, Math.cos(angle) * 0.5];
-              }).flat()
-            )}
+            count={jupiterOrbitPoints.length}
+            array={new Float32Array(jupiterOrbitPoints.flat())}
             itemSize={3}
           />
         </bufferGeometry>
@@ -299,8 +276,10 @@ const SpaceScene = () => {
         enablePan
         enableRotate
         autoRotate
-        autoRotateSpeed={1}
+        autoRotateSpeed={0.8}
         rotateSpeed={0.5}
+        autoRotateMinZoom={5}
+        autoRotateMaxZoom={20}
       />
     </>
   );
@@ -319,68 +298,48 @@ const LoadingFallback = () => (
 
 export const Interactive3DShowcase = () => {
   const prefersReducedMotion = useReducedMotion();
-  const [canvasReady, setCanvasReady] = useState(false);
+  const [isCanvasReady, setIsCanvasReady] = useState(false);
 
   const features = [
-    { icon: Globe, label: 'Solar System Experience', desc: 'Explore planets, moons, and asteroids' },
-    { icon: Rocket, label: 'Space Navigation', desc: 'Intuitive 3D camera controls and interactions' },
-    { icon: Star, label: 'Cosmic Visualizations', desc: 'Real-time particle and orbital systems' },
+    { icon: Globe, label: 'Interactive Solar System', desc: 'Explore planets with smooth controls' },
+    { icon: Rocket, label: 'Orbital Mechanics', desc: 'Realistic celestial body movements' },
+    { icon: Star, label: 'Cosmic Visualization', desc: 'Stunning space environment' },
   ];
 
   return (
-    <section id="3d-showcase" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 cyber-grid opacity-10" />
+    <section id="3d-showcase" className="relative py-20 md:py-28 overflow-hidden bg-background/50">
+      {/* Minimal background */}
       <motion.div
-        className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl"
-        animate={{ scale: [1, 1.2, 1], rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity }}
+        className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl pointer-events-none"
+        animate={{ scale: [1, 1.15, 1] }}
+        transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
+        {/* Minimal Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: '120px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-6"
-          />
-          <h2 className="font-display text-4xl md:text-6xl font-bold mb-4">
+          <h2 className="font-display text-3xl md:text-5xl font-bold mb-3">
             <span className="text-foreground">3D</span>{' '}
-            <motion.span
-              className="text-primary neon-text inline-block"
-              animate={{
-                textShadow: [
-                  '0 0 20px hsl(187 100% 47%)',
-                  '0 0 40px hsl(187 100% 47%)',
-                  '0 0 20px hsl(187 100% 47%)',
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              SPACE EXPLORER
-            </motion.span>
+            <span className="text-primary">SPACE EXPLORER</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Explore an interactive solar system with Three.js. Rotate, zoom, and discover the cosmos with intuitive controls.
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base">
+            Interactive solar system. Drag to rotate • Scroll to zoom
           </p>
         </motion.div>
 
-        {/* 3D Canvas Container */}
+        {/* 3D Canvas Container - Optimized */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
           viewport={{ once: true }}
-          className="relative mb-12 h-96 md:h-[600px] rounded-2xl overflow-hidden border border-primary/20 bg-card/30 backdrop-blur-sm"
+          className="relative mb-10 h-80 md:h-[500px] rounded-2xl overflow-hidden border border-primary/20 bg-black/80"
         >
           {/* 3D Canvas */}
           {!prefersReducedMotion && (
@@ -393,10 +352,12 @@ export const Interactive3DShowcase = () => {
                 stencil: false,
                 depth: true,
                 logarithmicDepthBuffer: false,
+                preserveDrawingBuffer: false,
               }}
               style={{ width: '100%', height: '100%' }}
-              onCreated={() => setCanvasReady(true)}
+              onCreated={() => setIsCanvasReady(true)}
               dpr={[1, 1.5]}
+              frameloop="always"
             >
               <color attach="background" args={['#0a0a14']} />
               <Suspense fallback={null}>
@@ -405,133 +366,87 @@ export const Interactive3DShowcase = () => {
             </Canvas>
           )}
 
-          {/* Fallback for reduced motion or no WebGL */}
+          {/* Fallback for reduced motion */}
           {prefersReducedMotion && (
-            <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center bg-card/30 backdrop-blur">
               <div className="text-center">
-                <Globe className="w-16 h-16 mx-auto mb-4 text-primary opacity-50" />
-                <p className="text-muted-foreground">3D visualization disabled (reduced motion preference)</p>
+                <Globe className="w-12 h-12 mx-auto mb-3 text-primary opacity-50" />
+                <p className="text-muted-foreground text-sm">Interactive 3D disabled (reduced motion)</p>
               </div>
             </div>
           )}
 
-          {/* Instruction Overlay */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            viewport={{ once: true }}
-            className="absolute bottom-4 left-4 right-4 pointer-events-none"
-          >
-            <div className="bg-background/80 backdrop-blur-sm border border-primary/30 rounded-lg p-3 text-center">
-              <p className="font-mono text-xs md:text-sm text-muted-foreground">
-                🌍 Drag to rotate • Scroll to zoom • Double-click to reset
+          {/* Instruction Overlay - Subtle */}
+          {isCanvasReady && !prefersReducedMotion && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="absolute bottom-3 left-0 right-0 text-center pointer-events-none"
+            >
+              <p className="text-xs text-muted-foreground/70 font-mono">
+                🌍 Drag • Scroll • Double-click to reset
               </p>
-            </div>
-          </motion.div>
+            </motion.div>
+          )}
         </motion.div>
 
-        {/* Features Grid */}
+        {/* Features Grid - Clean and Focused */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-6"
+          className="grid md:grid-cols-3 gap-4"
         >
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+              transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
               viewport={{ once: true }}
-              whileHover={{ y: -5 }}
-              className="group relative p-6 rounded-xl border border-primary/20 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all"
+              whileHover={{ y: -3 }}
+              className="p-4 rounded-lg border border-primary/15 bg-card/40 hover:border-primary/40 transition-all"
             >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
-                animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              />
-
-              <div className="relative z-10">
+              <div className="flex items-start gap-3">
                 <motion.div
-                  className="p-3 bg-primary/10 border border-primary/30 rounded-lg inline-block mb-4"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.5 }}
+                  whileHover={{ rotate: 10 }}
+                  className="p-2 bg-primary/10 rounded inline-block flex-shrink-0"
                 >
-                  <feature.icon className="w-6 h-6 text-primary" />
+                  <feature.icon className="w-5 h-5 text-primary" />
                 </motion.div>
-
-                <h3 className="font-display text-lg font-bold mb-2 text-foreground">
-                  {feature.label}
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  {feature.desc}
-                </p>
-
-                {/* Animated border */}
-                <motion.div
-                  className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-primary via-secondary to-accent"
-                  initial={{ width: 0 }}
-                  whileHover={{ width: '100%' }}
-                  transition={{ duration: 0.3 }}
-                />
+                <div>
+                  <h3 className="font-semibold text-sm text-foreground mb-1">
+                    {feature.label}
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    {feature.desc}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Tech Stack Used */}
+        {/* CTA - Minimal */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
           viewport={{ once: true }}
-          className="mt-12 text-center"
-        >
-          <h3 className="font-display text-xl font-bold mb-4 text-foreground">
-            Technologies Used
-          </h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            {['React Three Fiber', 'Three.js', 'WebGL', 'Optimized Rendering', 'Real-time Animations'].map((tech, i) => (
-              <motion.div
-                key={tech}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.7 + i * 0.05 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.1 }}
-                className="px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-sm"
-              >
-                {tech}
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
+          className="text-center mt-10"
         >
           <motion.a
             href="https://github.com/OwaisZakir"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{
-              scale: 1.05,
-              boxShadow: '0 0 30px hsl(187 100% 47% / 0.3)',
-            }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-8 py-4 font-display text-sm uppercase tracking-wider border-2 border-primary/50 text-primary rounded-xl hover:bg-primary/10 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-2 text-sm font-mono border border-primary/40 text-primary rounded-lg hover:bg-primary/10 transition-colors"
           >
-            <Code2 className="w-5 h-5" />
-            Explore 3D Projects
+            <Code2 className="w-4 h-4" />
+            View 3D Projects
             <Zap className="w-4 h-4" />
           </motion.a>
         </motion.div>
