@@ -51,13 +51,17 @@ const Canvas3DBackground = () => {
         });
 
         renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // Cap pixel ratio for performance
+        // Mobile friendly pixel ratio
+        const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5);
+        renderer.setPixelRatio(pixelRatio);
         renderer.setClearColor(0x000000, 0);
         camera.position.z = 50;
 
         // Create particles
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCnt = 3000; // Reduced from 5000 for better performance
+        // Adaptive particle count based on device
+        const isMobile = window.innerWidth < 768;
+        const particlesCnt = isMobile ? 1000 : 2000;
         const posArray = new Float32Array(particlesCnt * 3);
 
         for (let i = 0; i < particlesCnt * 3; i += 3) {
@@ -104,16 +108,17 @@ const Canvas3DBackground = () => {
         const animate = () => {
           animationFrameId = requestAnimationFrame(animate);
 
-          mouseX += (targetX - mouseX) * 0.03; // Reduced smoothing for performance
-          mouseY += (targetY - mouseY) * 0.03;
+          mouseX += (targetX - mouseX) * 0.02; // Reduce smoothing further
+          mouseY += (targetY - mouseY) * 0.02;
 
           // Rotate particles at consistent speed
-          particlesMesh.rotation.x += 0.00003;
-          particlesMesh.rotation.y += 0.00005;
+          particlesMesh.rotation.x += 0.00002;
+          particlesMesh.rotation.y += 0.00003;
 
-          // Add mouse influence
-          camera.position.x = mouseX * 50;
-          camera.position.y = mouseY * 50;
+          // Add mouse influence with reduced intensity for mobile
+          const influenceScale = isMobile ? 30 : 50;
+          camera.position.x = mouseX * influenceScale;
+          camera.position.y = mouseY * influenceScale;
 
           renderer.render(scene, camera);
           frameCount++;
