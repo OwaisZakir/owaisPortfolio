@@ -13,7 +13,7 @@ interface PerformanceMetrics {
   loadComplete: number;
 }
 
-let metrics: Partial<PerformanceMetrics> = {};
+const metrics: Partial<PerformanceMetrics> = {};
 
 /**
  * Initialize performance monitoring
@@ -142,7 +142,7 @@ export const reportPerformanceMetrics = (metricsData?: Partial<PerformanceMetric
 /**
  * Debounce function for performance-sensitive operations
  */
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): ((...args: Parameters<T>) => void) => {
@@ -162,7 +162,7 @@ export const debounce = <T extends (...args: any[]) => any>(
 /**
  * Throttle function for high-frequency events
  */
-export const throttle = <T extends (...args: any[]) => any>(
+export const throttle = <T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): ((...args: Parameters<T>) => void) => {

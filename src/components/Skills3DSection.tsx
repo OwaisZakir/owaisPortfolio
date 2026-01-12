@@ -106,7 +106,7 @@ interface SkillItemProps {
   skill: {
     name: string;
     level: number;
-    icon: any;
+    icon: React.ComponentType<{ className?: string }>;
   };
   categoryColor: string;
 }
@@ -137,7 +137,7 @@ const SkillItem = ({ skill, categoryColor }: SkillItemProps) => {
             : categoryColor === 'secondary'
             ? 'hsl(274 73% 58%)'
             : 'hsl(152 100% 50%)',
-        } as any}
+        } as React.CSSProperties}
       >
         {/* Icon */}
         <motion.div

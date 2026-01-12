@@ -22,51 +22,59 @@ export default defineConfig(({ mode }) => ({
     terserOptions: {
       compress: {
         drop_console: mode === "production",
+        passes: 2,
+        unsafe: true,
+      },
+      output: {
+        comments: false,
       },
     },
     rollupOptions: {
       output: {
-        manualChunks: {
+        manualChunks: (id) => {
           // Vendor chunks
-          "three": ["three"],
-          "react-three-fiber": ["@react-three/fiber", "@react-three/drei"],
-          "framer-motion": ["framer-motion"],
-          "react-router": ["react-router-dom"],
-          "ui-components": [
-            "@radix-ui/react-accordion",
-            "@radix-ui/react-alert-dialog",
-            "@radix-ui/react-avatar",
-            "@radix-ui/react-checkbox",
-            "@radix-ui/react-dialog",
-            "@radix-ui/react-dropdown-menu",
-            "@radix-ui/react-label",
-            "@radix-ui/react-popover",
-            "@radix-ui/react-select",
-            "@radix-ui/react-tabs",
-            "@radix-ui/react-toast",
-          ],
+          if (id.includes('node_modules/three')) return 'three';
+          if (id.includes('node_modules/@react-three')) return 'react-three-fiber';
+          if (id.includes('node_modules/framer-motion')) return 'framer-motion';
+          if (id.includes('node_modules/react-router-dom')) return 'react-router';
+          if (id.includes('node_modules/@radix-ui')) return 'ui-components';
+          if (id.includes('node_modules/@tanstack/react-query')) return 'react-query';
+          if (id.includes('node_modules/lucide-react')) return 'lucide-icons';
+
           // Feature-specific chunks
-          "3d-features": [
-            "./src/components/Canvas3DBackground",
-            "./src/components/Interactive3DShowcase",
-            "./src/components/Hero3DAdvanced",
-          ],
-          "sections": [
-            "./src/components/AboutSection",
-            "./src/components/SkillsSection",
-            "./src/components/Projects3D",
-            "./src/components/ExperienceSection",
-            "./src/components/ContactSection",
-          ],
+          if (id.includes('Canvas3DBackground') || id.includes('Interactive3DShowcase')) return '3d-features';
+          if (id.includes('AboutSection') || id.includes('SkillsSection') || id.includes('Projects3D')) return 'content-sections';
+          if (id.includes('Contact3D') || id.includes('ExperienceSection')) return 'engagement-sections';
+
+          return undefined;
+        },
+        entryFileNames: 'js/[name]-[hash].js',
+        chunkFileNames: 'js/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/png|jpe?g|gif|svg|webp|ico/i.test(ext)) {
+            return `images/[name]-[hash][extname]`;
+          } else if (/woff|woff2|eot|ttf|otf/i.test(ext)) {
+            return `fonts/[name]-[hash][extname]`;
+          } else if (ext === 'css') {
+            return `css/[name]-[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
         },
       },
     },
     // Increase chunk size threshold to avoid unnecessary chunks
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1200,
     sourcemap: mode === "production" ? false : true,
-    // Improve cache busting
+    // Improve cache busting and performance
     cssCodeSplit: true,
     reportCompressedSize: true,
+    // Optimize asset inline sizes
+    assetsInlineLimit: 8192,
+    emptyOutDir: true,
+    // Enable incremental build
+    watch: mode === "development" ? {} : null,
   },
   // Optimize dependencies
   optimizeDeps: {

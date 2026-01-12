@@ -77,7 +77,7 @@ const CyberNavbar3D = () => {
               background: 'radial-gradient(600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 238, 255, 0.1), transparent 80%)',
               '--mouse-x': `${mousePosition.x}px`,
               '--mouse-y': `${mousePosition.y}px`,
-            } as any}
+            } as React.CSSProperties}
             animate={{
               opacity: [0.3, 0.5, 0.3],
             }}

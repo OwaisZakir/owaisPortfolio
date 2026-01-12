@@ -1,86 +1,125 @@
-import ParticleField from '@/components/ParticleField';
-import MouseFollower from '@/components/MouseFollower';
-import CyberNavbar3D from '@/components/CyberNavbar3D';
-import ScrollProgressBar from '@/components/ScrollProgressBar';
+import { lazy, Suspense } from 'react';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import SkeletonLoader from '@/components/SkeletonLoader';
+
+// Import critical components immediately (no lazy load)
+import SEOHead from '@/components/SEOHead';
+import SchemaInjector from '@/components/SchemaInjector';
 import SkipLink from '@/components/SkipLink';
 import ThemeToggle from '@/components/ThemeToggle';
-import SchemaInjector from '@/components/SchemaInjector';
-import Canvas3DBackground from '@/components/Canvas3DBackground';
-import Hero3DAdvanced from '@/components/Hero3DAdvanced';
-import SEOHead from '@/components/SEOHead';
-import AboutSection from '@/components/AboutSection';
-import Skills3DSection from '@/components/Skills3DSection';
-import Projects3D from '@/components/Projects3D';
-import Interactive3DShowcase from '@/components/Interactive3DShowcase';
-import ExperienceSection from '@/components/ExperienceSection';
-import Contact3D from '@/components/Contact3D';
-import Footer from '@/components/Footer';
-import ErrorBoundary from '@/components/ErrorBoundary';
+
+// Lazy load non-critical components
+const Canvas3DBackground = lazy(() => import('@/components/Canvas3DBackground'));
+const ParticleField = lazy(() => import('@/components/ParticleField'));
+const MouseFollower = lazy(() => import('@/components/MouseFollower'));
+const CyberNavbar3D = lazy(() => import('@/components/CyberNavbar3D'));
+const ScrollProgressBar = lazy(() => import('@/components/ScrollProgressBar'));
+const Hero3DAdvanced = lazy(() => import('@/components/Hero3DAdvanced'));
+const AboutSection = lazy(() => import('@/components/AboutSection'));
+const Skills3DSection = lazy(() => import('@/components/Skills3DSection'));
+const Projects3D = lazy(() => import('@/components/Projects3D'));
+const Interactive3DShowcase = lazy(() => import('@/components/Interactive3DShowcase'));
+const ExperienceSection = lazy(() => import('@/components/ExperienceSection'));
+const Contact3D = lazy(() => import('@/components/Contact3D'));
+const Footer = lazy(() => import('@/components/Footer'));
+
+// Lightweight loading component
+const SectionSkeleton = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <SkeletonLoader />
+  </div>
+);
 
 const Index = () => {
   return (
     <ErrorBoundary>
+      {/* Critical components - always load immediately */}
       <SEOHead />
       <SchemaInjector />
       <SkipLink />
       <ThemeToggle />
+
       <div className="relative bg-background text-foreground overflow-x-hidden">
         {/* 3D Background Canvas */}
-        <Canvas3DBackground />
+        <Suspense fallback={null}>
+          <Canvas3DBackground />
+        </Suspense>
 
-        {/* Mouse Follower Effect */}
-        <MouseFollower />
+        {/* Decorative Elements */}
+        <Suspense fallback={null}>
+          <ParticleField />
+        </Suspense>
 
-        {/* Background Particle System */}
-        <ParticleField />
+        <Suspense fallback={null}>
+          <MouseFollower />
+        </Suspense>
 
-        {/* Scroll Progress Bar */}
-        <ScrollProgressBar />
+        {/* UI Elements */}
+        <Suspense fallback={null}>
+          <ScrollProgressBar />
+        </Suspense>
 
-        {/* Navigation */}
-        <CyberNavbar3D />
+        <Suspense fallback={null}>
+          <CyberNavbar3D />
+        </Suspense>
 
         {/* Main Content with depth-based immersion */}
         <main id="main-content" className="relative z-10">
           {/* Hero Section */}
           <ErrorBoundary>
-            <Hero3DAdvanced />
+            <Suspense fallback={<SectionSkeleton />}>
+              <Hero3DAdvanced />
+            </Suspense>
           </ErrorBoundary>
 
           {/* About Section */}
           <ErrorBoundary>
-            <AboutSection />
+            <Suspense fallback={<SectionSkeleton />}>
+              <AboutSection />
+            </Suspense>
           </ErrorBoundary>
 
           {/* Skills Section */}
           <ErrorBoundary>
-            <Skills3DSection />
+            <Suspense fallback={<SectionSkeleton />}>
+              <Skills3DSection />
+            </Suspense>
           </ErrorBoundary>
 
           {/* Projects Section - Main showcase */}
           <ErrorBoundary>
-            <Projects3D />
+            <Suspense fallback={<SectionSkeleton />}>
+              <Projects3D />
+            </Suspense>
           </ErrorBoundary>
 
-          {/* Interactive 3D Showcase */}
+          {/* Interactive 3D Showcase - Space themed */}
           <ErrorBoundary>
-            <Interactive3DShowcase />
+            <Suspense fallback={<SectionSkeleton />}>
+              <Interactive3DShowcase />
+            </Suspense>
           </ErrorBoundary>
 
           {/* Experience Section */}
           <ErrorBoundary>
-            <ExperienceSection />
+            <Suspense fallback={<SectionSkeleton />}>
+              <ExperienceSection />
+            </Suspense>
           </ErrorBoundary>
 
           {/* Contact Section */}
           <ErrorBoundary>
-            <Contact3D />
+            <Suspense fallback={<SectionSkeleton />}>
+              <Contact3D />
+            </Suspense>
           </ErrorBoundary>
         </main>
 
         {/* Footer */}
         <ErrorBoundary>
-          <Footer />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
         </ErrorBoundary>
       </div>
     </ErrorBoundary>

@@ -230,7 +230,7 @@ export const getCombinedSchema = () => ({
 /**
  * Utility function to inject schema into document head
  */
-export const injectSchema = (schema: any) => {
+export const injectSchema = (schema: Record<string, unknown>) => {
   const script = document.createElement('script');
   script.type = 'application/ld+json';
   script.textContent = JSON.stringify(schema);
