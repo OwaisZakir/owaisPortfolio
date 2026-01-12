@@ -1,97 +1,207 @@
 import { motion } from 'framer-motion';
-import { useRef, Suspense } from 'react';
+import { useRef, Suspense, lazy, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
-import { Zap, Cpu, Code2 } from 'lucide-react';
+import { Zap, Cpu, Code2, Globe, Rocket, Star } from 'lucide-react';
 
-// 3D Scene Components
-const RotatingCube = () => {
+// 3D Scene Components - Space Themed
+
+// Sun - Central star
+const Sun = () => {
   const meshRef = useRef<THREE.Mesh>(null);
 
   return (
-    <mesh ref={meshRef} position={[-3, 0, 0]}>
-      <boxGeometry args={[2, 2, 2]} />
-      <meshPhongMaterial
-        color="#00eeff"
-        emissive="#00eeff"
-        emissiveIntensity={0.5}
-        wireframe={false}
-      />
-    </mesh>
+    <group>
+      {/* Main sun */}
+      <mesh ref={meshRef} position={[0, 0, 0]}>
+        <sphereGeometry args={[1.5, 32, 32]} />
+        <meshBasicMaterial
+          color="#FFD700"
+          emissive="#FFD700"
+          emissiveIntensity={1}
+        />
+      </mesh>
+      {/* Sun glow */}
+      <mesh position={[0, 0, 0]}>
+        <sphereGeometry args={[1.8, 32, 32]} />
+        <meshBasicMaterial
+          color="#FFA500"
+          emissive="#FFA500"
+          emissiveIntensity={0.3}
+          transparent
+          opacity={0.4}
+        />
+      </mesh>
+    </group>
   );
 };
 
-const FloatingSphere = () => {
+// Earth - Blue planet with glow
+const Earth = () => {
   const meshRef = useRef<THREE.Mesh>(null);
 
+  useEffect(() => {
+    if (meshRef.current) {
+      const animate = () => {
+        if (meshRef.current) {
+          meshRef.current.rotation.y += 0.001;
+        }
+        requestAnimationFrame(animate);
+      };
+      animate();
+    }
+  }, []);
+
   return (
-    <mesh ref={meshRef} position={[3, 0, 0]}>
-      <sphereGeometry args={[1.5, 32, 32]} />
+    <mesh ref={meshRef} position={[4, 1, 0]}>
+      <sphereGeometry args={[0.8, 32, 32]} />
       <meshStandardMaterial
-        color="#9d4edd"
-        emissive="#9d4edd"
-        emissiveIntensity={0.3}
-        metalness={0.7}
-        roughness={0.2}
+        color="#4169E1"
+        emissive="#00BFFF"
+        emissiveIntensity={0.2}
+        metalness={0.3}
+        roughness={0.4}
       />
     </mesh>
   );
 };
 
-const PulsatingOctahedron = () => {
+// Mars - Red planet
+const Mars = () => {
   const meshRef = useRef<THREE.Mesh>(null);
 
+  useEffect(() => {
+    if (meshRef.current) {
+      const animate = () => {
+        if (meshRef.current) {
+          meshRef.current.rotation.y += 0.0008;
+        }
+        requestAnimationFrame(animate);
+      };
+      animate();
+    }
+  }, []);
+
   return (
-    <mesh ref={meshRef} position={[0, 2, 0]}>
-      <octahedronGeometry args={[1.5, 0]} />
-      <meshPhongMaterial
-        color="#00ff9d"
-        emissive="#00ff9d"
-        emissiveIntensity={0.4}
+    <mesh ref={meshRef} position={[-4, -1, 0]}>
+      <sphereGeometry args={[0.6, 32, 32]} />
+      <meshStandardMaterial
+        color="#CD5C5C"
+        emissive="#FF4500"
+        emissiveIntensity={0.15}
+        metalness={0.2}
+        roughness={0.5}
       />
     </mesh>
   );
 };
 
-const TorusKnot = () => {
+// Jupiter - Large gas giant
+const Jupiter = () => {
   const meshRef = useRef<THREE.Mesh>(null);
 
+  useEffect(() => {
+    if (meshRef.current) {
+      const animate = () => {
+        if (meshRef.current) {
+          meshRef.current.rotation.y += 0.0005;
+        }
+        requestAnimationFrame(animate);
+      };
+      animate();
+    }
+  }, []);
+
   return (
-    <mesh ref={meshRef} position={[0, -2, 0]}>
-      <torusKnotGeometry args={[1, 0.3, 100, 16]} />
-      <meshPhongMaterial
-        color="#ff00ff"
-        emissive="#ff00ff"
-        emissiveIntensity={0.3}
-        wireframe={true}
-        transparent
-        opacity={0.8}
+    <mesh ref={meshRef} position={[0, -3.5, 0]}>
+      <sphereGeometry args={[1.2, 32, 32]} />
+      <meshStandardMaterial
+        color="#DAA520"
+        emissive="#FFB90F"
+        emissiveIntensity={0.2}
+        metalness={0.4}
+        roughness={0.3}
       />
     </mesh>
   );
 };
 
-// Particle System
-const ParticleSystem = () => {
+// Asteroid belt particles
+const AsteroidBelt = () => {
   const particlesRef = useRef<THREE.Points>(null);
+
+  useEffect(() => {
+    if (particlesRef.current) {
+      const animate = () => {
+        if (particlesRef.current) {
+          particlesRef.current.rotation.z += 0.0001;
+        }
+        requestAnimationFrame(animate);
+      };
+      animate();
+    }
+  }, []);
+
+  const asteroidCount = 200;
+  const positions = new Float32Array(asteroidCount * 3);
+
+  for (let i = 0; i < asteroidCount * 3; i += 3) {
+    const radius = 5 + Math.random() * 2;
+    const angle = Math.random() * Math.PI * 2;
+    positions[i] = Math.cos(angle) * radius;
+    positions[i + 1] = (Math.random() - 0.5) * 0.5;
+    positions[i + 2] = Math.sin(angle) * radius;
+  }
 
   return (
     <points ref={particlesRef}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={300}
-          array={new Float32Array(
-            Array.from({ length: 300 * 3 }, () => (Math.random() - 0.5) * 20)
-          )}
+          count={asteroidCount}
+          array={positions}
           itemSize={3}
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.15}
-        color="#00eeff"
+        size={0.1}
+        color="#B0C4DE"
+        transparent
+        opacity={0.8}
+        sizeAttenuation
+      />
+    </points>
+  );
+};
+
+// Cosmic dust and stars
+const CosmicDust = () => {
+  const particlesRef = useRef<THREE.Points>(null);
+
+  const starCount = 500;
+  const positions = new Float32Array(starCount * 3);
+
+  for (let i = 0; i < starCount * 3; i += 3) {
+    positions[i] = (Math.random() - 0.5) * 40;
+    positions[i + 1] = (Math.random() - 0.5) * 40;
+    positions[i + 2] = (Math.random() - 0.5) * 40;
+  }
+
+  return (
+    <points ref={particlesRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={starCount}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.05}
+        color="#FFFFFF"
         transparent
         opacity={0.6}
         sizeAttenuation
@@ -100,33 +210,97 @@ const ParticleSystem = () => {
   );
 };
 
+// Orbital rings visualization
+const OrbitalRings = () => {
+  return (
+    <group>
+      {/* Earth orbit */}
+      <line>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={64}
+            array={new Float32Array(
+              Array.from({ length: 64 }, (_, i) => {
+                const angle = (i / 64) * Math.PI * 2;
+                return [Math.cos(angle) * 4, 1 * Math.sin(angle * 0.1), Math.sin(angle) * 4];
+              }).flat()
+            )}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <lineBasicMaterial color="#00BFFF" transparent opacity={0.2} linewidth={1} />
+      </line>
+
+      {/* Mars orbit */}
+      <line>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={64}
+            array={new Float32Array(
+              Array.from({ length: 64 }, (_, i) => {
+                const angle = (i / 64) * Math.PI * 2;
+                return [Math.cos(angle) * 4, -1 * Math.sin(angle * 0.1), Math.sin(angle) * 4];
+              }).flat()
+            )}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <lineBasicMaterial color="#FF4500" transparent opacity={0.2} linewidth={1} />
+      </line>
+
+      {/* Jupiter orbit */}
+      <line>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={64}
+            array={new Float32Array(
+              Array.from({ length: 64 }, (_, i) => {
+                const angle = (i / 64) * Math.PI * 2;
+                return [Math.cos(angle) * 3.5, Math.sin(angle) * 3.5, Math.cos(angle) * 0.5];
+              }).flat()
+            )}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <lineBasicMaterial color="#FFB90F" transparent opacity={0.2} linewidth={1} />
+      </line>
+    </group>
+  );
+};
+
 // Lights
 const Lights = () => (
   <>
-    <ambientLight intensity={0.5} />
-    <pointLight position={[10, 10, 10]} intensity={1} color="#00eeff" />
-    <pointLight position={[-10, -10, 10]} intensity={0.5} color="#9d4edd" />
-    <pointLight position={[0, 0, 10]} intensity={0.8} color="#00ff9d" />
+    <ambientLight intensity={0.4} />
+    <pointLight position={[0, 0, 0]} intensity={1.5} color="#FFD700" />
+    <pointLight position={[10, 10, 10]} intensity={0.5} color="#00BFFF" />
+    <pointLight position={[-10, -10, -10]} intensity={0.3} color="#FF4500" />
   </>
 );
 
 // Main 3D Scene
-const Scene = () => {
+const SpaceScene = () => {
   return (
     <>
       <Lights />
-      <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={75} />
-      <ParticleSystem />
-      <RotatingCube />
-      <FloatingSphere />
-      <PulsatingOctahedron />
-      <TorusKnot />
+      <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={75} />
+      <CosmicDust />
+      <OrbitalRings />
+      <Sun />
+      <Earth />
+      <Mars />
+      <Jupiter />
+      <AsteroidBelt />
       <OrbitControls
         enableZoom
         enablePan
         enableRotate
         autoRotate
-        autoRotateSpeed={3}
+        autoRotateSpeed={1}
+        rotateSpeed={0.5}
       />
     </>
   );
@@ -145,11 +319,12 @@ const LoadingFallback = () => (
 
 export const Interactive3DShowcase = () => {
   const prefersReducedMotion = useReducedMotion();
+  const [canvasReady, setCanvasReady] = useState(false);
 
   const features = [
-    { icon: Cpu, label: 'Interactive Controls', desc: 'Mouse-driven 3D manipulation' },
-    { icon: Code2, label: 'React Three Fiber', desc: 'Advanced WebGL rendering' },
-    { icon: Zap, label: 'Real-time Animation', desc: 'Smooth 60 FPS performance' },
+    { icon: Globe, label: 'Solar System Experience', desc: 'Explore planets, moons, and asteroids' },
+    { icon: Rocket, label: 'Space Navigation', desc: 'Intuitive 3D camera controls and interactions' },
+    { icon: Star, label: 'Cosmic Visualizations', desc: 'Real-time particle and orbital systems' },
   ];
 
   return (
@@ -191,11 +366,11 @@ export const Interactive3DShowcase = () => {
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              SHOWCASE
+              SPACE EXPLORER
             </motion.span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Explore my Three.js expertise with this interactive 3D experience. Drag, rotate, and zoom with your mouse.
+            Explore an interactive solar system with Three.js. Rotate, zoom, and discover the cosmos with intuitive controls.
           </p>
         </motion.div>
 
@@ -214,12 +389,18 @@ export const Interactive3DShowcase = () => {
                 antialias: true,
                 alpha: true,
                 powerPreference: 'high-performance',
+                precision: 'mediump',
+                stencil: false,
+                depth: true,
+                logarithmicDepthBuffer: false,
               }}
               style={{ width: '100%', height: '100%' }}
+              onCreated={() => setCanvasReady(true)}
+              dpr={[1, 1.5]}
             >
               <color attach="background" args={['#0a0a14']} />
               <Suspense fallback={null}>
-                <Scene />
+                <SpaceScene />
               </Suspense>
             </Canvas>
           )}
@@ -228,7 +409,7 @@ export const Interactive3DShowcase = () => {
           {prefersReducedMotion && (
             <div className="w-full h-full flex items-center justify-center">
               <div className="text-center">
-                <Cpu className="w-16 h-16 mx-auto mb-4 text-primary opacity-50" />
+                <Globe className="w-16 h-16 mx-auto mb-4 text-primary opacity-50" />
                 <p className="text-muted-foreground">3D visualization disabled (reduced motion preference)</p>
               </div>
             </div>
@@ -244,7 +425,7 @@ export const Interactive3DShowcase = () => {
           >
             <div className="bg-background/80 backdrop-blur-sm border border-primary/30 rounded-lg p-3 text-center">
               <p className="font-mono text-xs md:text-sm text-muted-foreground">
-                💡 Drag to rotate • Scroll to zoom • Double-click to reset
+                🌍 Drag to rotate • Scroll to zoom • Double-click to reset
               </p>
             </div>
           </motion.div>
@@ -314,7 +495,7 @@ export const Interactive3DShowcase = () => {
             Technologies Used
           </h3>
           <div className="flex flex-wrap justify-center gap-3">
-            {['React Three Fiber', 'Three.js', 'WebGL', 'GLSL Shaders', 'Framer Motion'].map((tech, i) => (
+            {['React Three Fiber', 'Three.js', 'WebGL', 'Optimized Rendering', 'Real-time Animations'].map((tech, i) => (
               <motion.div
                 key={tech}
                 initial={{ opacity: 0, scale: 0 }}
@@ -350,7 +531,7 @@ export const Interactive3DShowcase = () => {
             className="inline-flex items-center gap-2 px-8 py-4 font-display text-sm uppercase tracking-wider border-2 border-primary/50 text-primary rounded-xl hover:bg-primary/10 transition-colors"
           >
             <Code2 className="w-5 h-5" />
-            View 3D Projects on GitHub
+            Explore 3D Projects
             <Zap className="w-4 h-4" />
           </motion.a>
         </motion.div>
